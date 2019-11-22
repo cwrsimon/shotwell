@@ -233,9 +233,14 @@ public class VideoReader {
         if (thumbnailer_pid != 0) {
             debug("Killing thumbnailer process: %d", thumbnailer_pid);
 #if VALA_0_40
-            Posix.kill(thumbnailer_pid, Posix.Signal.KILL);
+         //   Posix.kill(thumbnailer_pid, Posix.Signal.KILL);
+           //          Posix.kill(thumbnailer_pid, 9);
+
 #else
-            Posix.kill(thumbnailer_pid, Posix.SIGKILL);
+//            Posix.kill(thumbnailer_pid, Posix.SIGKILL);
+// TODO Find a windows equivalent
+        //    Posix.kill(thumbnailer_pid, 9);
+
 #endif
         }
         return false; // Don't call again.
@@ -265,6 +270,8 @@ public class VideoReader {
         
         // Read pixbuf from stream.
         Gdk.Pixbuf? buf = null;
+        // TODO Find a solution lateron....
+        /*
         try {
             GLib.UnixInputStream unix_input = new GLib.UnixInputStream(child_stdout, true);
             buf = new Gdk.Pixbuf.from_stream(unix_input, null);
@@ -272,18 +279,22 @@ public class VideoReader {
             debug("Error creating pixbuf: %s", e.message);
             buf = null;
         }
+        */
         
         // Make sure process exited properly.
-        int child_status = 0;
-        int ret_waitpid = Posix.waitpid(thumbnailer_pid, out child_status, 0);
+        //int child_status = 0;
+        // TODO Find windows equivalent
+        int ret_waitpid = 0;
+        //int ret_waitpid = Posix.waitpid(thumbnailer_pid, out child_status, 0);
         if (ret_waitpid < 0) {
             debug("waitpid returned error code: %d", ret_waitpid);
             buf = null;
-        } else if (0 != Process.exit_status(child_status)) {
-            debug("Thumbnailer exited with error code: %d",
-                    Process.exit_status(child_status));
-            buf = null;
-        }
+        } 
+        //else if (0 != Process.exit_status(child_status)) {
+        //    debug("Thumbnailer exited with error code: %d",
+        //           Process.exit_status(child_status));
+        //    buf = null;
+        //}
         
         GLib.Process.close_pid(thumbnailer_pid);
         thumbnailer_pid = 0;

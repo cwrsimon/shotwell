@@ -17,7 +17,7 @@ configure_file(output : 'config.h', configuration: conf)
 
 config_incdir = include_directories('.')
 vapi_incdir = include_directories('vapi')
-shotwell_plugin_dir = join_paths(get_option('libdir'), 'shotwell', 'plugins', 'builtin')
+#shotwell_plugin_dir = join_paths(get_option('libdir'), 'shotwell', 'plugins', 'builtin')
 
 add_global_arguments(['-DHAVE_CONFIG_H=1'],
                      ['-include'], ['config.h'], language : 'c')
@@ -39,9 +39,11 @@ endif
 gtk = dependency('gtk+-3.0', version : '>= 3.22')
 gio = dependency('gio-2.0', version: '>= 2.40')
 gmodule = dependency('gmodule-2.0', version: '>= 2.40')
-gio_unix = dependency('gio-unix-2.0', version: '>= 2.40')
+# TODO
+gio_unix = dependency('gio-unix-2.0', version: '>= 2.40', required: false)
 gee = dependency('gee-0.8', version: '>= 0.8.5')
-webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
+# only required for publisher plugins
+#webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
 soup = dependency('libsoup-2.4')
 json_glib = dependency('json-glib-1.0')
 xml = dependency('libxml-2.0')
@@ -66,10 +68,10 @@ if unity.found() and get_option('unity-support')
   add_global_arguments(['--define=UNITY_SUPPORT'], language : 'vala')
 endif
 
-foreach publisher : get_option('publishers').split(',')
-  add_global_arguments(['--define=HAVE_@0@'.format(publisher.to_upper())],
-                       language : 'vala')
-endforeach
+#foreach publisher : get_option('publishers').split(',')
+#  add_global_arguments(['--define=HAVE_@0@'.format(publisher.to_upper())],
+#                       language : 'vala')
+#endforeach
 
 foreach trace : get_option('trace').split(',')
   add_global_arguments(['--define=TRACE_@0@'.format(trace.to_upper().underscorify())],
@@ -96,8 +98,9 @@ endif
 
 json_glib = dependency('json-glib-1.0')
 gdata = dependency('libgdata')
-gcr = dependency('gcr-3')
-gcr_ui = dependency('gcr-ui-3')
+# TODO Who needs this?
+#gcr = dependency('gcr-3')
+#gcr_ui = dependency('gcr-ui-3')
 cairo = dependency('cairo')
 
 valac = meson.get_compiler('vala')
@@ -107,13 +110,13 @@ shotwell_resources = gnome.compile_resources('shotwell-resources',
         'org.gnome.Shotwell.gresource.xml')
 
 subdir('src')
-subdir('plugins')
+#subdir('plugins')
 subdir('po')
 subdir('help')
 subdir('misc')
 subdir('thumbnailer')
 subdir('settings-migrator')
-subdir('test')
+#subdir('test')
 subdir('app-icons')
 
 meson.add_install_script('build-aux/meson/postinstall.py')

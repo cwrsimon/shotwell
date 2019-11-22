@@ -1,0 +1,13 @@
+Shotwell Installation Instruction on Windows
+
+1. Setup an MSYS64 environment:
+TODO
+
+2. Install these dependencies using pacman:
+TODO
+
+3. Fire up meson:
+meson build
+
+4. Call Ninja:
+ninja -C build
