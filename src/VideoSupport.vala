@@ -227,6 +227,12 @@ public class VideoReader {
         }
     }
     
+    // IDEA cwrsimon:
+    // Use either taskkill /pid 1234 /f
+    // or use TerminateProcess:
+    // https://docs.microsoft.com/de-de/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess?redirectedfrom=MSDN
+
+
     // Used by thumbnailer() to kill the external process if need be.
     private bool on_thumbnailer_timer() {
         debug("Thumbnailer timer called");
@@ -246,6 +252,7 @@ public class VideoReader {
         return false; // Don't call again.
     }
     
+
     // Performs video thumbnailing.
     // Note: not thread-safe if called from the same instance of the class.
     private Gdk.Pixbuf? thumbnailer(string video_file) {
@@ -254,6 +261,9 @@ public class VideoReader {
         string[] argv = {AppDirs.get_thumbnailer_bin().get_path(), video_file};
         int child_stdout;
         try {
+            // TODO cwrsimon 
+            // https://docs.microsoft.com/de-de/windows/win32/api/winuser/nf-winuser-waitforinputidle
+            // https://valadoc.org/glib-2.0/GLib.Process.spawn_async_with_pipes.html
             GLib.Process.spawn_async_with_pipes(null, argv, null, GLib.SpawnFlags.SEARCH_PATH | 
                 GLib.SpawnFlags.DO_NOT_REAP_CHILD, null, out thumbnailer_pid, null, out child_stdout,
                 null);
@@ -281,6 +291,10 @@ public class VideoReader {
         }
         */
         
+        // TODO cwrsimon
+        // quote from the Glib documentation:
+        // You can then access the child process using the Win32 API, for example wait for its termination with the WaitFor*() functions, or examine its exit code with GetExitCodeProcess.
+
         // Make sure process exited properly.
         //int child_status = 0;
         // TODO Find windows equivalent

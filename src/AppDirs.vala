@@ -14,6 +14,8 @@ class AppDirs {
     
     // Because this is called prior to Debug.init(), this function cannot do any logging calls
     public static void init(string arg0) {
+        // TODO cwrsimon Does it make sense to find a Windows equivalent, here?
+        // https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfullpathnamea
 //        File exec_file = File.new_for_path(Posix.realpath(Environment.find_program_in_path(arg0)));
             File exec_file = File.new_for_path(Environment.find_program_in_path(arg0));
 
