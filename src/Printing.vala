@@ -494,7 +494,7 @@ public class CustomPrintTab : Gtk.Box {
         // string decimal_point;
         // if (decimal == null) decimal = "";
         // FIXME
-        unowned string decimal_point = ",";
+        unowned string decimal_point = ".";
 
         bool contains_decimal_point = sender.get_text().contains(decimal_point);
 
