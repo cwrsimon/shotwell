@@ -20,7 +20,7 @@ class ShotwellThumbnailer {
         int64 duration, position;
         Gst.StateChangeReturn ret;
 
-        // TODO Find out why this is necessary?
+        // TODO cwrsimon use the START command instead
         //if (Posix.nice (19) < 0) {
         //    debug ("Failed to reduce thumbnailer nice level. Continuing anyway");
         //}
