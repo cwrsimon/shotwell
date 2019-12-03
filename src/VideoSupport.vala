@@ -45,7 +45,8 @@ public class VideoReader {
     private double clip_duration = UNKNOWN_CLIP_DURATION;
     private Gdk.Pixbuf preview_frame = null;
     private File file = null;
-    private GLib.Pid thumbnailer_pid = 0;
+    // TODO Reintegrate me later
+    //private GLib.Pid thumbnailer_pid = 0;
     public DateTime? timestamp { get; private set; default = null; }
 
     public VideoReader(File file) {
@@ -233,6 +234,7 @@ public class VideoReader {
     // https://docs.microsoft.com/de-de/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess?redirectedfrom=MSDN
 
 
+    /*
     // Used by thumbnailer() to kill the external process if need be.
     private bool on_thumbnailer_timer() {
         debug("Thumbnailer timer called");
@@ -243,18 +245,20 @@ public class VideoReader {
            //          Posix.kill(thumbnailer_pid, 9);
 
 #else
-//            Posix.kill(thumbnailer_pid, Posix.SIGKILL);
+            Posix.kill(thumbnailer_pid, Posix.SIGKILL);
 // TODO Find a windows equivalent
-        //    Posix.kill(thumbnailer_pid, 9);
+            Posix.kill(thumbnailer_pid, 9);
 
 #endif
         }
         return false; // Don't call again.
     }
+    */
     
 
     // Performs video thumbnailing.
     // Note: not thread-safe if called from the same instance of the class.
+    /*
     private Gdk.Pixbuf? thumbnailer(string video_file) {
         // Use Shotwell's thumbnailer, redirect output to stdout.
         debug("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
@@ -281,7 +285,7 @@ public class VideoReader {
         // Read pixbuf from stream.
         Gdk.Pixbuf? buf = null;
         // TODO Find a solution lateron....
-        /*
+        
         try {
             GLib.UnixInputStream unix_input = new GLib.UnixInputStream(child_stdout, true);
             buf = new Gdk.Pixbuf.from_stream(unix_input, null);
@@ -289,31 +293,33 @@ public class VideoReader {
             debug("Error creating pixbuf: %s", e.message);
             buf = null;
         }
-        */
+        
         
         // TODO cwrsimon
         // quote from the Glib documentation:
         // You can then access the child process using the Win32 API, for example wait for its termination with the WaitFor*() functions, or examine its exit code with GetExitCodeProcess.
 
         // Make sure process exited properly.
-        //int child_status = 0;
+        int child_status = 0;
         // TODO Find windows equivalent
         int ret_waitpid = 0;
-        //int ret_waitpid = Posix.waitpid(thumbnailer_pid, out child_status, 0);
+        int ret_waitpid = Posix.waitpid(thumbnailer_pid, out child_status, 0);
         if (ret_waitpid < 0) {
             debug("waitpid returned error code: %d", ret_waitpid);
             buf = null;
         } 
-        //else if (0 != Process.exit_status(child_status)) {
-        //    debug("Thumbnailer exited with error code: %d",
-        //           Process.exit_status(child_status));
-        //    buf = null;
-        //}
+        else if (0 != Process.exit_status(child_status)) {
+            debug("Thumbnailer exited with error code: %d",
+                   Process.exit_status(child_status));
+            buf = null;
+        }
         
         GLib.Process.close_pid(thumbnailer_pid);
         thumbnailer_pid = 0;
         return buf;
     }
+    */
+    
     
     private bool does_file_exist() {
         return FileUtils.test(file.get_path(), FileTest.EXISTS | FileTest.IS_REGULAR);
@@ -327,7 +333,9 @@ public class VideoReader {
             return null;
         
         // Get preview frame from thumbnailer.
-        preview_frame = thumbnailer(file.get_path());
+        // TODO cwrsimon Reintegrate this later.
+        //preview_frame = thumbnailer(file.get_path());
+        preview_frame = null;
         if (null == preview_frame)
             preview_frame = Resources.get_noninterpretable_badge_pixbuf();
         
