@@ -1,5 +1,14 @@
 # Shotwell Photo Manager
 ----------------------
+
+This fork of Shotwell aims to provide a documentation as well as a 
+modified code base that allow to build and run Shotwell 0.30.7 
+on Windows within an MSYS2 environment. 
+Please see the installation instructions [here] (INSTALL.windows).
+
+Features currently not working / not compilable:
+- publishers (webkit-gtk is not available in MSYS2 yet)
+- video thumbnail generation
     
 ## Introduction
 Shotwell is a digital photo manager designed for the GNOME desktop
