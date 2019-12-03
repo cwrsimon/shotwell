@@ -1,13 +1,26 @@
 Shotwell Installation Instruction on Windows
 
-1. Setup an MSYS64 environment:
-TODO
+1. Setup an MSYS2 environment:
+http://www.msys2.org/
 
-2. Install these dependencies using pacman:
-TODO
+2. Update your MSYS64 environment:
+pacman -Syu
+
+3. Clone this git repository:
+git clone https://github.com/cwrsimon/shotwell.git
+
+
+4. Install the required packages from pkglist.txt:
+pacman -S --needed - < pkglist.txt
+
 
 3. Fire up meson:
+cd shotwell
 meson build
 
 4. Call Ninja:
-ninja -C build
+ninja -C build install
+
+5. Run the Shotwell executable in C:\msys64\mingw64\bin\ .
+
+
