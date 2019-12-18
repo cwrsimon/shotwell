@@ -25,8 +25,11 @@ void main () {
 	
 	print ("\n");
 
-    print( "%%X:"); print( Time.local(original_time)
-		.format("%X") ); print ("\n");
+    print( "%%X:%s\n", Time.local(original_time).format("%X") );
+    print( "%%r:%s\n", Time.local(original_time).format("%r") );
+
+    print( "%%R:"); print( Time.local(original_time)
+		.format("%R") ); print ("\n");
 
     print( "T_FMT:"); print( Time.local(original_time)
 		.format(bla) ); print ("\n");
