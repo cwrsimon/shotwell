@@ -24,6 +24,7 @@ void main () {
 
     print( t.format( "%H:%M:%S" ) ); print ("\n");
     print( t.format( "%X" ) ); print ("\n");
+    print( t.format( "%H:%M" ) ); print ("\n");
     print( t.to_string() );
 
 	
