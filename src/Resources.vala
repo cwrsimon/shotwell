@@ -830,8 +830,8 @@ along with Shotwell; if not, write to the Free Software Foundation, Inc.,
         /// Precede modifier with a dash ("-") to pad with spaces, otherwise will pad with zeroes
         /// See http://developer.gnome.org/glib/2.32/glib-GDateTime.html#g-date-time-format
         //HH_MM_FORMAT_STRING = "%X";
-        // %R seems to make more sense here ...
-        HH_MM_FORMAT_STRING = "%R";
+        // This makes more sense here ...
+        HH_MM_FORMAT_STRING = "%H:%M";
 
         // Difficult to migrate to Windows...
         // T_FMT returns "%H:%M:%S" on a German linux system
