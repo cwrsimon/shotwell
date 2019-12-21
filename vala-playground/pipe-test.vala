@@ -1,3 +1,4 @@
+/* 
 private static bool process_line (IOChannel channel, IOCondition condition, string stream_name) {
     if (condition == IOCondition.HUP) {
         stdout.printf ("%s: The fd has been closed.\n", stream_name);
@@ -18,17 +19,22 @@ private static bool process_line (IOChannel channel, IOCondition condition, stri
 
     return true;
 }
+*/
 
 public static int main (string[] args) {
-    MainLoop loop = new MainLoop ();
+    //MainLoop loop = new MainLoop ();
     try {
-        string[] spawn_args = {"ls", "-lha"};
+        //  ../build/thumbnailer/shotwell-video-thumbnailer.exe
+        string[] spawn_args = {"shotwell-video-thumbnailer.exe", 
+//        "/c/Users/Christian/Projects/shotwell/vala-playground/small.mp4"};
+        "small.mp4"};
+
         string[] spawn_env = Environ.get ();
         Pid child_pid;
 
         int standard_output;
 
-        Process.spawn_async_with_pipes (".",
+        Process.spawn_async_with_pipes ("../build/thumbnailer/",
         spawn_args,
         spawn_env,
         SpawnFlags.SEARCH_PATH ,
@@ -44,22 +50,37 @@ public static int main (string[] args) {
         // https://valadoc.org/glib-2.0/GLib.IOChannel.add_watch.html
         // stdout:
            IOChannel output = new IOChannel.win32_new_fd  (standard_output);
+            output.set_encoding(null);
+           string line;
+           IOStatus status = IOStatus.NORMAL;
+           while (status != IOStatus.EOF) {
+            status =  output.read_line (out line, null, null);
+            print ( line );
+           }
+           status =  output.read_to_end (out line, null);
+            print ( line );
+          // stdout.close();
+
         //IOChannel output = new IOChannel.unix_new  (standard_output);
   
-        output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-            return process_line (channel, condition, "stdout");
-        });
+        //output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+        //    return process_line (channel, condition, "stdout");
+        //});
 
-        ChildWatch.add_full ( Priority.DEFAULT_IDLE, child_pid, (pid, status) => {
-            print( "%d", status);
+       // ChildWatch.add_full ( Priority.DEFAULT_IDLE, child_pid, (pid, status) => {
+         //   print( "%d", status);
             // Triggered when the child indicated by child_pid exits
-            Process.close_pid (pid);
-            loop.quit ();
-        });
+        //    Process.close_pid (pid);
+           // loop.quit ();
+       // });
 
-        loop.run ();
+        //loop.run ();
     } catch (SpawnError e) {
-        stdout.printf ("Error: %s\n", e.message);
+        stderr.printf ("Error: %s\n", e.message);
+    } catch (IOChannelError e) {
+        stderr.printf ("IOChannelError: %s\n", e.message);
+    }  catch (ConvertError e) {
+        stderr.printf ("ConvertError: %s\n", e.message);
     }
     return 0;
 }
