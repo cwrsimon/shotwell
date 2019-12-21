@@ -25,7 +25,7 @@ public static int main (string[] args) {
     //MainLoop loop = new MainLoop ();
     try {
         //  ../build/thumbnailer/shotwell-video-thumbnailer.exe
-        string[] spawn_args = {"shotwell-video-thumbnailer.exe", 
+        string[] spawn_args = {"./thumbnailer.exe", 
 //        "/c/Users/Christian/Projects/shotwell/vala-playground/small.mp4"};
         "small.mp4"};
 
@@ -34,7 +34,7 @@ public static int main (string[] args) {
 
         int standard_output;
 
-        Process.spawn_async_with_pipes ("../build/thumbnailer/",
+        Process.spawn_async_with_pipes (".",
         spawn_args,
         spawn_env,
         SpawnFlags.SEARCH_PATH ,
@@ -55,10 +55,10 @@ public static int main (string[] args) {
            IOStatus status = IOStatus.NORMAL;
            while (status != IOStatus.EOF) {
             status =  output.read_line (out line, null, null);
-            print ( line );
+            stdout.printf ( "%s", line );
            }
-           status =  output.read_to_end (out line, null);
-            print ( line );
+          // status =  output.read_to_end (out line, null);
+          //  print ( line );
           // stdout.close();
 
         //IOChannel output = new IOChannel.unix_new  (standard_output);
