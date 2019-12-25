@@ -246,7 +246,8 @@ public class VideoReader {
 
 #else
             Posix.kill(thumbnailer_pid, Posix.SIGKILL);
-// TODO Find a windows equivalent
+// Use this windows equivalent:
+taskkill /PID process_id
             Posix.kill(thumbnailer_pid, 9);
 
 #endif
