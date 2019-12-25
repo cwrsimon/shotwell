@@ -4,6 +4,10 @@
  * See the COPYING file in this distribution.
  */
 
+// TODO cwrsimon Is this the right place?
+extern string locale_get_decimal ();
+
+
 public enum ContentLayout {
     STANDARD_SIZE,
     CUSTOM_SIZE,
@@ -301,6 +305,7 @@ public class CustomPrintTab : Gtk.Box {
     private bool is_text_insertion_in_progress = false;
     private PrintJob source_job;
 
+
     public CustomPrintTab(PrintJob source_job) {
         this.source_job = source_job;
 
@@ -485,16 +490,7 @@ public class CustomPrintTab : Gtk.Box {
         if (length == -1)
             length = (int) text.length;
 
-        // TODO What did they do here?
-        // RADIXCHAR -> LOCALE_SDECIMAL
-        // https://github.com/msys2/MINGW-packages/commit/b47cbd20c405dfeb84f14215b2f89ae31d2d0786
-        // https://github.com/KrullBorg/MINGW-packages/blob/master/mingw-w64-gnome-calculator/001-win.patch
-        // unowned string decimal_point = Posix.nl_langinfo (Posix.NLItem.RADIXCHAR);
-        // Windows.GetLocaleInfo(0x0400, 0x0000000e, out decimal, 4);
-        // string decimal_point;
-        // if (decimal == null) decimal = "";
-        // FIXME
-        unowned string decimal_point = ".";
+        string decimal_point = locale_get_decimal();
 
         bool contains_decimal_point = sender.get_text().contains(decimal_point);
 
