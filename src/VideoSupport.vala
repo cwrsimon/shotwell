@@ -45,8 +45,8 @@ public class VideoReader {
     private double clip_duration = UNKNOWN_CLIP_DURATION;
     private Gdk.Pixbuf preview_frame = null;
     private File file = null;
-    // TODO Reintegrate me later
-    //private GLib.Pid thumbnailer_pid = 0;
+    
+    private GLib.Pid thumbnailer_pid = 0;
     public DateTime? timestamp { get; private set; default = null; }
 
     public VideoReader(File file) {
@@ -259,17 +259,18 @@ taskkill /PID process_id
 
     // Performs video thumbnailing.
     // Note: not thread-safe if called from the same instance of the class.
-    /*
     private Gdk.Pixbuf? thumbnailer(string video_file) {
         // Use Shotwell's thumbnailer, redirect output to stdout.
         debug("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
-        string[] argv = {AppDirs.get_thumbnailer_bin().get_path(), video_file};
+
+        File video_file_path = File.new_for_path(video_file);
+        File working_dir = video_file_path.get_parent();
+
+        string[] argv = {AppDirs.get_thumbnailer_bin().get_path(), video_file_path.get_basename() };
+
         int child_stdout;
         try {
-            // TODO cwrsimon 
-            // https://docs.microsoft.com/de-de/windows/win32/api/winuser/nf-winuser-waitforinputidle
-            // https://valadoc.org/glib-2.0/GLib.Process.spawn_async_with_pipes.html
-            GLib.Process.spawn_async_with_pipes(null, argv, null, GLib.SpawnFlags.SEARCH_PATH | 
+                GLib.Process.spawn_async_with_pipes(working_dir.get_path(), argv, null, GLib.SpawnFlags.SEARCH_PATH | 
                 GLib.SpawnFlags.DO_NOT_REAP_CHILD, null, out thumbnailer_pid, null, out child_stdout,
                 null);
             debug("Spawned thumbnailer, child pid: %d", (int) thumbnailer_pid);
@@ -281,15 +282,32 @@ taskkill /PID process_id
         }
         
         // Start timer.
-        Timeout.add(THUMBNAILER_TIMEOUT, on_thumbnailer_timer);
+        // TODO Reintegrate me later
+        //Timeout.add(THUMBNAILER_TIMEOUT, on_thumbnailer_timer);
         
         // Read pixbuf from stream.
         Gdk.Pixbuf? buf = null;
         // TODO Find a solution lateron....
         
         try {
-            GLib.UnixInputStream unix_input = new GLib.UnixInputStream(child_stdout, true);
-            buf = new Gdk.Pixbuf.from_stream(unix_input, null);
+            //GLib.UnixInputStream unix_input = new GLib.UnixInputStream(child_stdout, true);
+            
+            IOChannel output = new IOChannel.win32_new_fd  (child_stdout);
+            output.set_encoding(null);
+
+            StringBuilder contentBuilder = new StringBuilder();
+           
+            IOStatus status = IOStatus.NORMAL;
+            while (status != IOStatus.EOF) {
+             string line;
+             status = output.read_line (out line, null, null);
+             contentBuilder.append(line);
+            }
+            var pngData = Base64.decode(contentBuilder.str);
+            // FIXME close the stream
+            MemoryInputStream mis = new MemoryInputStream.from_data(pngData);
+            buf = new Gdk.Pixbuf.from_stream(mis);
+
         } catch (Error e) {
             debug("Error creating pixbuf: %s", e.message);
             buf = null;
@@ -301,6 +319,7 @@ taskkill /PID process_id
         // You can then access the child process using the Win32 API, for example wait for its termination with the WaitFor*() functions, or examine its exit code with GetExitCodeProcess.
 
         // Make sure process exited properly.
+        /* 
         int child_status = 0;
         // TODO Find windows equivalent
         int ret_waitpid = 0;
@@ -314,12 +333,12 @@ taskkill /PID process_id
                    Process.exit_status(child_status));
             buf = null;
         }
-        
+        */
         GLib.Process.close_pid(thumbnailer_pid);
         thumbnailer_pid = 0;
         return buf;
     }
-    */
+    
     
     
     private bool does_file_exist() {
@@ -334,9 +353,7 @@ taskkill /PID process_id
             return null;
         
         // Get preview frame from thumbnailer.
-        // TODO cwrsimon Reintegrate this later.
-        //preview_frame = thumbnailer(file.get_path());
-        preview_frame = null;
+        preview_frame = thumbnailer(file.get_path());
         if (null == preview_frame)
             preview_frame = Resources.get_noninterpretable_badge_pixbuf();
         

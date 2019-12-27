@@ -25,8 +25,8 @@ public static int main (string[] args) {
     //MainLoop loop = new MainLoop ();
     try {
         //  ../build/thumbnailer/shotwell-video-thumbnailer.exe
-        string[] spawn_args = {"./thumbnailer.exe", 
-//        "/c/Users/Christian/Projects/shotwell/vala-playground/small.mp4"};
+        string[] spawn_args = {"../build/thumbnailer/shotwell-video-thumbnailer.exe", 
+     //   "/c/Users/cwrsi/Projects/shotwell/vala-playground/small.mp4"};
         "small.mp4"};
 
         string[] spawn_env = Environ.get ();
@@ -51,12 +51,34 @@ public static int main (string[] args) {
         // stdout:
            IOChannel output = new IOChannel.win32_new_fd  (standard_output);
             output.set_encoding(null);
-           string line;
-           IOStatus status = IOStatus.NORMAL;
-           while (status != IOStatus.EOF) {
-            status =  output.read_line (out line, null, null);
-            stdout.printf ( "%s", line );
-           }
+            StringBuilder contentBuilder = new StringBuilder();
+           
+            IOStatus status = IOStatus.NORMAL;
+            while (status != IOStatus.EOF) {
+             string line;
+             status = output.read_line (out line, null, null);
+             if (line == null) {
+                 print("null\n");
+                 continue;
+             }
+             print("%d\n", line.length);
+             contentBuilder.append(line.strip());
+            }
+            print("%d", contentBuilder.str.length);
+
+            File file = File.new_for_path ("bla.base64");
+	try {
+		FileIOStream stream = file.create_readwrite (FileCreateFlags.PRIVATE);
+		stream.output_stream.write (contentBuilder.str.data);
+	} catch (Error e) {
+		print ("Error: %s\n", e.message);
+	}
+
+            var pngData = Base64.decode(contentBuilder.str);
+            // FIXME close the stream
+            Gdk.Pixbuf? buf = null;
+            MemoryInputStream mis = new MemoryInputStream.from_data(pngData);
+            buf = new Gdk.Pixbuf.from_stream(mis);
           // status =  output.read_to_end (out line, null);
           //  print ( line );
           // stdout.close();
@@ -81,6 +103,9 @@ public static int main (string[] args) {
         stderr.printf ("IOChannelError: %s\n", e.message);
     }  catch (ConvertError e) {
         stderr.printf ("ConvertError: %s\n", e.message);
+    }catch (Error e) {
+        stderr.printf ("Error: %s\n", e.message);
     }
+
     return 0;
 }
