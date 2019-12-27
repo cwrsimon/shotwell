@@ -44,8 +44,8 @@ class ShotwellThumbnailer {
         
         descr = "filesrc location=\"%s\" ! decodebin ! videoconvert ! videoscale ! ".printf(args[1]) +
             "%s ! gdkpixbufsink name=sink".printf(caps_string);
-        
-        try {
+            
+            try {
             // Create new pipeline.
             pipeline = Gst.parse_launch(descr);
             
@@ -95,7 +95,11 @@ class ShotwellThumbnailer {
 
             // Save the pixbuf.
             pixbuf.save_to_buffer(out pngdata, "png");
-            stdout.write(pngdata);
+
+            // Instead of the raw binary content,
+            // we will send the content in Base64.
+            string base64_content = Base64.encode( pngdata);
+            stdout.printf("%s", base64_content);
 
             // cleanup and exit.
             pipeline.set_state(Gst.State.NULL);

@@ -309,9 +309,9 @@ class AppDirs {
                 get_child("shotwell").get_child("shotwell.log");
         }
     }
-    /*
+    
     public static File get_thumbnailer_bin() {
-        const string filename = "shotwell-video-thumbnailer";
+        const string filename = "shotwell-video-thumbnailer.exe";
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {
             // If we're running installed.
@@ -324,7 +324,7 @@ class AppDirs {
 
         return f;
     }
-    */
+    
 
     public static File get_settings_migrator_bin() {
         const string filename = "shotwell-settings-migrator";
