@@ -14,19 +14,32 @@ Features currently not working / not compilable:
 http://www.msys2.org/
 
 2. Update your environment:
+```
 pacman -Syu
+```
 
 3. Clone this git repository:
+```
 git clone https://github.com/cwrsimon/shotwell.git
+```
 
 4. Install the required packages from pkglist.txt:
-pacman -S --needed - < pkglist.txt
+```
+pacman -S --needed - < required-packages.txt
+```
 
 
-
-3. Fire up meson:
+5. Fire up meson and ninja:
 cd shotwell
 meson build
+ninja -C build
+
+6. Test the build:
+cd build/src/
+./shotwell.exe
+
+7. Install to /mingw64:
+ninja install
     
 ## Introduction
 Shotwell is a digital photo manager designed for the GNOME desktop

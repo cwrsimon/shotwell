@@ -1,12 +1,3 @@
-bash-completion
-bsdcpio
-bsdtar
-dtc
-flex
-getent
-git
-inetutils
-lndir
 mingw-w64-x86_64-desktop-file-utils
 mingw-w64-x86_64-gexiv2
 mingw-w64-x86_64-gst-plugins-bad
@@ -18,14 +9,4 @@ mingw-w64-x86_64-meson
 mingw-w64-x86_64-pkg-config
 mingw-w64-x86_64-vala
 mingw-w64-x86_64-yelp-tools
-msys2-launcher-git
-nano
 ninja
-pactoys-git
-pax-git
-rebase
-tar
-time
-ttyrec
-tzcode
-util-linux
