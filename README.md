@@ -3,12 +3,30 @@
 
 This fork of Shotwell aims to provide a documentation as well as a 
 modified code base that allow to build and run Shotwell 0.30.7 
-on Windows within an MSYS2 environment. 
-Please see the installation instructions [here] (INSTALL.windows).
+on Windows within a MINGW environment. 
 
 Features currently not working / not compilable:
 - publishers (webkit-gtk is not available in MSYS2 yet)
-- video thumbnail generation
+
+## Installing on Windows
+
+1. Setup an MSYS2 environment on your machine:
+http://www.msys2.org/
+
+2. Update your environment:
+pacman -Syu
+
+3. Clone this git repository:
+git clone https://github.com/cwrsimon/shotwell.git
+
+4. Install the required packages from pkglist.txt:
+pacman -S --needed - < pkglist.txt
+
+
+
+3. Fire up meson:
+cd shotwell
+meson build
     
 ## Introduction
 Shotwell is a digital photo manager designed for the GNOME desktop
