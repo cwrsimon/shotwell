@@ -41,6 +41,8 @@ class ShotwellThumbnailer {
             stdout.printf("usage: %s [filename]\n Writes video thumbnail to stdout\n", args[0]);
             return 1;
         }
+        // FIXME Only for experiments
+        Thread.usleep(10000000);
         
         descr = "filesrc location=\"%s\" ! decodebin ! videoconvert ! videoscale ! ".printf(args[1]) +
             "%s ! gdkpixbufsink name=sink".printf(caps_string);
