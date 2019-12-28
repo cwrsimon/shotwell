@@ -287,7 +287,6 @@ taskkill /PID process_id
         
         // Read pixbuf from stream.
         Gdk.Pixbuf? buf = null;
-        // TODO Find a solution lateron....
         
         try {
             //GLib.UnixInputStream unix_input = new GLib.UnixInputStream(child_stdout, true);
@@ -304,20 +303,16 @@ taskkill /PID process_id
              contentBuilder.append(line);
             }
             var pngData = Base64.decode(contentBuilder.str);
-            // FIXME close the stream
+
             MemoryInputStream mis = new MemoryInputStream.from_data(pngData);
             buf = new Gdk.Pixbuf.from_stream(mis);
+            mis.close();
 
         } catch (Error e) {
             debug("Error creating pixbuf: %s", e.message);
             buf = null;
         }
         
-        
-        // TODO cwrsimon
-        // quote from the Glib documentation:
-        // You can then access the child process using the Win32 API, for example wait for its termination with the WaitFor*() functions, or examine its exit code with GetExitCodeProcess.
-
         // Make sure process exited properly.
         /* 
         int child_status = 0;
