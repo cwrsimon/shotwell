@@ -126,6 +126,7 @@ class AppDirs {
      * to where any helper applets we need will live if installed.
      */
     public static File get_libexec_dir() {
+        
         if (libexec_dir == null) {
             if (get_install_dir() == null) {
                 // not installed yet - use wherever we were run from
@@ -312,6 +313,8 @@ class AppDirs {
     
     public static File get_thumbnailer_bin() {
         const string filename = "shotwell-video-thumbnailer.exe";
+        return AppDirs.get_exec_dir().get_child (filename);
+        /* 
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {
             // If we're running installed.
@@ -323,6 +326,7 @@ class AppDirs {
         }
 
         return f;
+        */
     }
     
 
