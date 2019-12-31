@@ -28,18 +28,23 @@ git clone https://github.com/cwrsimon/shotwell.git
 pacman -S --needed - < required-packages.txt
 ```
 
-
 5. Fire up meson and ninja:
+```
 cd shotwell
 meson build
 ninja -C build
+```
 
 6. Test the build:
+```
 cd build/src/
 ./shotwell.exe
+```
 
 7. Install to /mingw64:
-ninja install
+```
+ninja -C build install
+```
     
 ## Introduction
 Shotwell is a digital photo manager designed for the GNOME desktop
