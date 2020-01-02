@@ -147,4 +147,5 @@
 /mingw64/bin/libxml2-2.dll 
 /mingw64/bin/libzbar-0.dll 
 /mingw64/bin/libzstd.dll 
+/mingw64/bin/SDL2.dll 
 /mingw64/bin/zlib1.dll 
