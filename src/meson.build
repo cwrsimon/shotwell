@@ -36,6 +36,7 @@ shotwell_deps = [gio, gee, sqlite, gtk, sqlite, posix, gphoto2,
 if unity_available
     shotwell_deps += [unity]
 endif
+
 executable('shotwell',
            ['unit/Unit.vala',
             'util/Util.vala',
@@ -250,4 +251,7 @@ executable('shotwell',
                           'org.gnome.Shotwell.gresource.xml')
                        ],
            link_with: [sw_graphics_processor],
-           install : true)
+           objects: 'shotwell.res',
+           install : true,
+	   link_args : '-Wl,--subsystem,windows'
+		)
