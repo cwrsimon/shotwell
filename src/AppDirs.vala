@@ -287,7 +287,13 @@ class AppDirs {
             return get_exec_dir();
         }
         
-        return install_dir.get_child(Resources.LIB).get_child("shotwell");
+        File install_lib_dir = install_dir.get_child(Resources.LIB).get_child("shotwell");
+        if ( install_lib_dir.query_exists() ) {
+            return install_lib_dir;
+        }
+
+        // last try, return lib dir relative to the execution dir
+        return get_exec_dir().get_parent().get_child ("lib").get_child("shotwell");
     }
     
     public static File get_system_plugins_dir() {
