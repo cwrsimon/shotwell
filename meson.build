@@ -17,7 +17,7 @@ configure_file(output : 'config.h', configuration: conf)
 
 config_incdir = include_directories('.')
 vapi_incdir = include_directories('vapi')
-#shotwell_plugin_dir = join_paths(get_option('libdir'), 'shotwell', 'plugins', 'builtin')
+shotwell_plugin_dir = join_paths(get_option('libdir'), 'shotwell', 'plugins', 'builtin')
 
 add_global_arguments(['-DHAVE_CONFIG_H=1'],
                      ['-include'], ['config.h'], language : 'c')
@@ -110,7 +110,7 @@ shotwell_resources = gnome.compile_resources('shotwell-resources',
         'org.gnome.Shotwell.gresource.xml')
 
 subdir('src')
-#subdir('plugins')
+subdir('plugins')
 subdir('po')
 subdir('help')
 subdir('misc')
