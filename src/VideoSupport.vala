@@ -261,7 +261,7 @@ taskkill /PID process_id
     // Note: not thread-safe if called from the same instance of the class.
     private Gdk.Pixbuf? thumbnailer(string video_file) {
         // Use Shotwell's thumbnailer, redirect output to stdout.
-        debug("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
+        print("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
 
         File video_file_path = File.new_for_path(video_file);
         File working_dir = video_file_path.get_parent();
@@ -273,9 +273,9 @@ taskkill /PID process_id
                 GLib.Process.spawn_async_with_pipes(working_dir.get_path(), argv, null, GLib.SpawnFlags.SEARCH_PATH | 
                 GLib.SpawnFlags.DO_NOT_REAP_CHILD, null, out thumbnailer_pid, null, out child_stdout,
                 null);
-            debug("Spawned thumbnailer, child pid: %d", (int) thumbnailer_pid);
+            print("Spawned thumbnailer, child pid: %d", (int) thumbnailer_pid);
         } catch (Error e) {
-            debug("Error spawning process: %s", e.message);
+            print("Error spawning process: %s", e.message);
             if (thumbnailer_pid != 0)
                 GLib.Process.close_pid(thumbnailer_pid);
             return null;
