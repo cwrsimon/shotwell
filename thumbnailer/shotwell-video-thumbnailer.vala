@@ -21,7 +21,8 @@ class ShotwellThumbnailer {
         Gst.StateChangeReturn ret;
 
         // set nicety in Powershell script
-        // TODO cwrsimon use the START command instead
+        // on Windows, this will be handled by either start.exe
+        // or the calling powershell script
         //if (Posix.nice (19) < 0) {
         //    debug ("Failed to reduce thumbnailer nice level. Continuing anyway");
         //}
@@ -42,8 +43,8 @@ class ShotwellThumbnailer {
             stdout.printf("usage: %s [filename]\n Writes video thumbnail to stdout\n", args[0]);
             return 1;
         }
-        // FIXME Only for experiments
-        Thread.usleep(10000000);
+        // REMOVEME Only for experiments wrt timeout
+        // Thread.usleep(10000000);
         
         descr = "filesrc location=\"%s\" ! decodebin ! videoconvert ! videoscale ! ".printf(args[1]) +
             "%s ! gdkpixbufsink name=sink".printf(caps_string);
@@ -100,11 +101,8 @@ class ShotwellThumbnailer {
             pixbuf.save_to_buffer(out pngdata, "png");
 
             // TODO Check if index is set
+            // otherwise, dump to stdout
             pixbuf.save( args[2], "png");
-            // Instead of the raw binary content,
-            // we will send the content in Base64.
-           // string base64_content = Base64.encode( pngdata);
-            //stdout.printf("%s", base64_content);
 
             // cleanup and exit.
             pipeline.set_state(Gst.State.NULL);
