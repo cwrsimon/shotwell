@@ -8,10 +8,9 @@ public static int main (string[] args) {
         string[] spawn_args = {"powershell",
         "-executionpolicy", "bypass", "-file", "myscript.ps1", 
         "../build/thumbnailer/shotwell-video-thumbnailer.exe",
-        "small.p4",
+        "C:\\Users\\cwrsi\\Projects\\shotwell\\vala-playground\\small.mp4",
         "output.png",
         "5"
-        //   "/c/Users/cwrsi/Projects/shotwell/vala-playground/small.mp4"};
         };
 
         string[] spawn_env = Environ.get ();

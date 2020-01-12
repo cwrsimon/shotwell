@@ -11,19 +11,27 @@ Write-Host $Args[1]
 Write-Host $Args[2]
 Write-Host $Args[3]
 
-#$programtorun = "../build/thumbnailer/shotwell-video-thumbnailer.exe"
-$executable = $Args[0]
-$argumentlist = $Args[1], $Args[2]
+$videofile = Split-Path $Args[1] -Leaf
+$workingdir = Split-Path $Args[1] -Parent
+Write-Host "Video-File:", $videofile
+Write-Host $workingdir
 
-$proc = Start-Process -FilePath $executable -ArgumentList $argumentlist -PassThru -WindowStyle hidden
-#  -NoNewWindow
-   
+$argumentlist = $videofile, $Args[2]
+
+$proc = Start-Process   -FilePath $Args[0] `
+                        -WorkingDirectory $workingdir `
+                        -ArgumentList $argumentlist `
+                        -PassThru `
+                        -WindowStyle hidden
+                        
 # keep track of timeout event
 $timeouted = $null
 
 # https://stackoverflow.com/questions/36933527/powershell-start-process-wait-with-timeout-kill-and-get-exit-code
 # wait up to x seconds for normal termination
-$proc | Wait-Process -Timeout $Args[3] -ErrorAction SilentlyContinue -ErrorVariable timeouted
+$proc | Wait-Process    -Timeout $Args[3] `
+                        -ErrorAction SilentlyContinue `
+                        -ErrorVariable timeouted
 
 if ($timeouted)
 {
