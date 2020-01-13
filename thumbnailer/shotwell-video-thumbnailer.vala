@@ -42,7 +42,7 @@ class ShotwellThumbnailer {
             return 1;
         }
         // FIXME Only for experiments
-        // Thread.usleep(10000000);
+       // Thread.usleep(20000000);
         
         descr = "filesrc location=\"%s\" ! decodebin ! videoconvert ! videoscale ! ".printf(args[1]) +
             "%s ! gdkpixbufsink name=sink".printf(caps_string);
@@ -102,7 +102,7 @@ class ShotwellThumbnailer {
             // we will send the content in Base64.
             string base64_content = Base64.encode( pngdata);
             stdout.printf("%s", base64_content);
-
+            //stdout.write(pngdata);
             // cleanup and exit.
             pipeline.set_state(Gst.State.NULL);
             

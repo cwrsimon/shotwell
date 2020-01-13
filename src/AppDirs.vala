@@ -319,7 +319,7 @@ class AppDirs {
     
     public static File get_thumbnailer_bin() {
         const string filename = "shotwell-video-thumbnailer.exe";
-        return AppDirs.get_exec_dir().get_child (filename);
+        return AppDirs.get_exec_dir().get_parent().get_child("thumbnailer").get_child (filename);
         /* 
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {

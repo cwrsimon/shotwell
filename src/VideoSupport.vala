@@ -46,7 +46,7 @@ public class VideoReader {
     private Gdk.Pixbuf preview_frame = null;
     private File file = null;
     
-    private GLib.Pid thumbnailer_pid = 0;
+    private Subprocess? thumbnailer_process = null;
     public DateTime? timestamp { get; private set; default = null; }
 
     public VideoReader(File file) {
@@ -234,103 +234,78 @@ public class VideoReader {
     // https://docs.microsoft.com/de-de/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess?redirectedfrom=MSDN
 
 
-    /*
+    
     // Used by thumbnailer() to kill the external process if need be.
     private bool on_thumbnailer_timer() {
-        debug("Thumbnailer timer called");
-        if (thumbnailer_pid != 0) {
-            debug("Killing thumbnailer process: %d", thumbnailer_pid);
-#if VALA_0_40
-         //   Posix.kill(thumbnailer_pid, Posix.Signal.KILL);
-           //          Posix.kill(thumbnailer_pid, 9);
-
-#else
-            Posix.kill(thumbnailer_pid, Posix.SIGKILL);
-// Use this windows equivalent:
-taskkill /PID process_id
-            Posix.kill(thumbnailer_pid, 9);
-
-#endif
+        print("Thumbnailer timer called\n");
+        if (thumbnailer_process != null) {
+            thumbnailer_process.force_exit();
         }
         return false; // Don't call again.
     }
-    */
+    
     
 
     // Performs video thumbnailing.
     // Note: not thread-safe if called from the same instance of the class.
     private Gdk.Pixbuf? thumbnailer(string video_file) {
         // Use Shotwell's thumbnailer, redirect output to stdout.
-        debug("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
-
+        print("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
+         
         File video_file_path = File.new_for_path(video_file);
         File working_dir = video_file_path.get_parent();
+        
+        // TODO 
+        //"start",
+        // nice level equivalent on Windows
+          //                  "/LOW", 
+        //                    "/B",
+        
+        string[] argv = { 
+                        AppDirs.get_thumbnailer_bin().get_path(),
+                         video_file_path.get_basename() };
 
-        string[] argv = {AppDirs.get_thumbnailer_bin().get_path(), video_file_path.get_basename() };
-
-        int child_stdout;
+        //int child_stdout;
         try {
-                GLib.Process.spawn_async_with_pipes(working_dir.get_path(), argv, null, GLib.SpawnFlags.SEARCH_PATH | 
-                GLib.SpawnFlags.DO_NOT_REAP_CHILD, null, out thumbnailer_pid, null, out child_stdout,
-                null);
-            debug("Spawned thumbnailer, child pid: %d", (int) thumbnailer_pid);
+                SubprocessLauncher launcher = new GLib.SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+                launcher.set_cwd (working_dir.get_path());
+                thumbnailer_process = launcher.spawnv (argv);
+
+                //thumbnailer_process = new GLib.Subprocess(SubprocessFlags.STDOUT_PIPE,
+                //                                          AppDirs.get_thumbnailer_bin().get_path(),
+                //                                        video_file);
+            print("Spawned thumbnailer, child id: %s", thumbnailer_process.get_identifier());
         } catch (Error e) {
-            debug("Error spawning process: %s", e.message);
-            if (thumbnailer_pid != 0)
-                GLib.Process.close_pid(thumbnailer_pid);
+            print("Error spawning process: %s", e.message);
             return null;
         }
         
         // Start timer.
-        // TODO Reintegrate me later
-        //Timeout.add(THUMBNAILER_TIMEOUT, on_thumbnailer_timer);
+        var timeout = Timeout.add(THUMBNAILER_TIMEOUT, on_thumbnailer_timer);
         
         // Read pixbuf from stream.
         Gdk.Pixbuf? buf = null;
         
         try {
-            //GLib.UnixInputStream unix_input = new GLib.UnixInputStream(child_stdout, true);
-            
-            IOChannel output = new IOChannel.win32_new_fd  (child_stdout);
-            output.set_encoding(null);
+            Bytes pixbuf_bytes;
+            string pixbuf_base64;
+            thumbnailer_process.communicate_utf8(null, null, out pixbuf_base64, null);
 
-            StringBuilder contentBuilder = new StringBuilder();
+            var pngData = Base64.decode(pixbuf_base64);
+            pixbuf_bytes = new Bytes(pngData);
+
+            var loader = new Gdk.PixbufLoader.with_type("png");
+            loader.write_bytes(pixbuf_bytes);
+            loader.close();
+            buf = loader.get_pixbuf();
            
-            IOStatus status = IOStatus.NORMAL;
-            while (status != IOStatus.EOF) {
-             string line;
-             status = output.read_line (out line, null, null);
-             contentBuilder.append(line);
-            }
-            var pngData = Base64.decode(contentBuilder.str);
-
-            MemoryInputStream mis = new MemoryInputStream.from_data(pngData);
-            buf = new Gdk.Pixbuf.from_stream(mis);
-            mis.close();
-
         } catch (Error e) {
-            debug("Error creating pixbuf: %s", e.message);
+            print("Error creating pixbuf: %s", e.message);
             buf = null;
         }
         
-        // Make sure process exited properly.
-        /* 
-        int child_status = 0;
-        // TODO Find windows equivalent
-        int ret_waitpid = 0;
-        int ret_waitpid = Posix.waitpid(thumbnailer_pid, out child_status, 0);
-        if (ret_waitpid < 0) {
-            debug("waitpid returned error code: %d", ret_waitpid);
-            buf = null;
-        } 
-        else if (0 != Process.exit_status(child_status)) {
-            debug("Thumbnailer exited with error code: %d",
-                   Process.exit_status(child_status));
-            buf = null;
-        }
-        */
-        GLib.Process.close_pid(thumbnailer_pid);
-        thumbnailer_pid = 0;
+        thumbnailer_process = null;
+        Source.remove (timeout);
         return buf;
     }
     
