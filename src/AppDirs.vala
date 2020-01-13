@@ -318,9 +318,8 @@ class AppDirs {
     }
     
     public static File get_thumbnailer_bin() {
-        const string filename = "shotwell-video-thumbnailer.exe";
-        return AppDirs.get_exec_dir().get_parent().get_child("thumbnailer").get_child (filename);
-        /* 
+        const string filename = "shotwell-video-thumbnailer";
+
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {
             // If we're running installed.
@@ -331,8 +330,18 @@ class AppDirs {
             f = AppDirs.get_libexec_dir().get_parent().get_child("thumbnailer").get_child(filename);
         }
 
+        if (!f.query_exists()) {
+            // relative to execution dir (the same where shotwell.exe should be)
+            f = AppDirs.get_exec_dir().get_child (filename);
+        }
+
+        if (!f.query_exists()) {
+            // are we running shotwell from src?
+            f = AppDirs.get_exec_dir().get_parent().get_child("thumbnailer").get_child (filename);
+        }
+
         return f;
-        */
+
     }
     
 

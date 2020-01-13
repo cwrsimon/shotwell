@@ -9,6 +9,9 @@
 
 // Shotwell Thumbnailer takes in a video file and returns a thumbnail to stdout.  This is
 // a replacement for totem-video-thumbnailer
+
+extern void set_priority_level_low();
+
 class ShotwellThumbnailer {
     const string caps_string = """video/x-raw,format=RGB,pixel-aspect-ratio=1/1""";
 
@@ -20,10 +23,11 @@ class ShotwellThumbnailer {
         int64 duration, position;
         Gst.StateChangeReturn ret;
 
-        // TODO cwrsimon use the START command instead
+        // Posix.nice is only supported on POSIX systems
         //if (Posix.nice (19) < 0) {
         //    debug ("Failed to reduce thumbnailer nice level. Continuing anyway");
         //}
+        set_priority_level_low();
 
         Gst.init(ref args);
 
