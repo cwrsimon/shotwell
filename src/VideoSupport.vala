@@ -288,11 +288,12 @@ public class VideoReader {
         
         try {
             Bytes pixbuf_bytes;
-            string pixbuf_base64;
-            thumbnailer_process.communicate_utf8(null, null, out pixbuf_base64, null);
+            //string pixbuf_base64;
+            //thumbnailer_process.communicate_utf8(null, null, out pixbuf_base64, null);
+            thumbnailer_process.communicate(null, null, out pixbuf_bytes, null);
 
-            var pngData = Base64.decode(pixbuf_base64);
-            pixbuf_bytes = new Bytes(pngData);
+            //var pngData = Base64.decode(pixbuf_base64);
+            //pixbuf_bytes = new Bytes(pngData);
 
             var loader = new Gdk.PixbufLoader.with_type("png");
             loader.write_bytes(pixbuf_bytes);

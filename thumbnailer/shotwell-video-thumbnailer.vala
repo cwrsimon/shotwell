@@ -22,6 +22,7 @@ class ShotwellThumbnailer {
         uint8[]? pngdata;
         int64 duration, position;
         Gst.StateChangeReturn ret;
+        var out = FileStream.fdopen(Posix.dup(stdout.fileno()), "wb");
 
         // Posix.nice is only supported on POSIX systems
         //if (Posix.nice (19) < 0) {
@@ -104,9 +105,10 @@ class ShotwellThumbnailer {
 
             // Instead of the raw binary content,
             // we will send the content in Base64.
-            string base64_content = Base64.encode( pngdata);
-            stdout.printf("%s", base64_content);
+            //string base64_content = Base64.encode( pngdata);
+            //stdout.printf("%s", base64_content);
             //stdout.write(pngdata);
+            out.write(pngdata);
             // cleanup and exit.
             pipeline.set_state(Gst.State.NULL);
             
