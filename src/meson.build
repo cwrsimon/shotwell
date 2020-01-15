@@ -208,7 +208,7 @@ executable('shotwell',
             'MediaViewTracker.vala',
             'UnityProgressBar.vala',
             'Upgrades.vala',
-	    'windows.c',
+	          'windows.c',
             'dialogs/AdjustDateTimeDialog.vala',
             'dialogs/EntryMultiCompletion.vala',
             'dialogs/ExportDialog.vala',
@@ -253,5 +253,5 @@ executable('shotwell',
            link_with: [sw_graphics_processor],
            objects: 'shotwell.res',
            install : true,
-	   link_args : '-Wl,--subsystem,windows'
+           gui_app : true
 		)

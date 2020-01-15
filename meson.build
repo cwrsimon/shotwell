@@ -6,6 +6,15 @@ project('shotwell', ['vala', 'c'],
 gnome = import('gnome')
 i18n = import('i18n')
 
+# TODO Continue from here ...
+# TODO don't precompile rc file: 
+# https://mesonbuild.com/Windows-module.html#page-description
+# 
+enableWindowsSupport = host_machine.system() == 'windows'
+if enableWindowsSupport
+  windows = import('windows')
+endif
+
 conf = configuration_data()
 conf.set('GETTEXT_PACKAGE', '"@0@"'.format(meson.project_name().to_lower()))
 conf.set('_VERSION', '"@0@"'.format(meson.project_version()))
@@ -13,6 +22,7 @@ conf.set('_PREFIX', '"@0@"'.format(get_option('prefix')))
 conf.set('_LANG_SUPPORT_DIR', '"@0@"'.format(join_paths(get_option('prefix'), get_option('localedir'))))
 conf.set('_LIBEXECDIR', '"@0@"'.format(join_paths(get_option('prefix'), get_option('libexecdir'))))
 conf.set('_LIB', '"@0@"'.format(join_paths(get_option('prefix'), get_option('libdir'))))
+conf.set('_WINDOWS', '"@0@"'.format(enableWindowsSupport))
 configure_file(output : 'config.h', configuration: conf)
 
 config_incdir = include_directories('.')
