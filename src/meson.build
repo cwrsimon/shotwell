@@ -31,10 +31,15 @@ if get_option('face-detection')
 endif
 
 shotwell_deps = [gio, gee, sqlite, gtk, sqlite, posix, gphoto2,
-                 gstreamer_pbu, gio_unix, gudev, gexiv2, gmodule,
+                 gstreamer_pbu, gudev, gexiv2, gmodule,
                  libraw, libexif, sw_plugin]
 if unity_available
     shotwell_deps += [unity]
+endif
+
+windows_sources = []
+if enableWindowsSupport
+  windows_sources += ['windows.c']
 endif
 
 executable('shotwell',
@@ -208,7 +213,6 @@ executable('shotwell',
             'MediaViewTracker.vala',
             'UnityProgressBar.vala',
             'Upgrades.vala',
-	          'windows.c',
             'dialogs/AdjustDateTimeDialog.vala',
             'dialogs/EntryMultiCompletion.vala',
             'dialogs/ExportDialog.vala',
@@ -240,7 +244,7 @@ executable('shotwell',
             '.unitize/_DataImportsInternals.vala',
             '.unitize/_FoldersInternals.vala',
             '.unitize/_Library_unitize_entry.vala',
-            '.unitize/_Direct_unitize_entry.vala'] + shotwell_resources + face_sources,
+            '.unitize/_Direct_unitize_entry.vala'] + shotwell_resources + face_sources + windows_sources,
            include_directories : vapi_incdir,
            dependencies : shotwell_deps,
            vala_args : ['--pkg', 'libgphoto2',

@@ -49,8 +49,6 @@ endif
 gtk = dependency('gtk+-3.0', version : '>= 3.22')
 gio = dependency('gio-2.0', version: '>= 2.40')
 gmodule = dependency('gmodule-2.0', version: '>= 2.40')
-# TODO
-gio_unix = dependency('gio-unix-2.0', version: '>= 2.40', required: false)
 gee = dependency('gee-0.8', version: '>= 0.8.5')
 # only required for publisher plugins
 #webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
@@ -105,6 +103,11 @@ if get_option('face-detection')
   add_global_arguments(['--define=ENABLE_FACES'], language : 'vala')
   subdir('facedetect')
 endif
+
+if enableWindowsSupport
+  add_global_arguments(['--define=ENABLE_WINDOWS'], language : 'vala')
+endif
+
 
 json_glib = dependency('json-glib-1.0')
 gdata = dependency('libgdata')
