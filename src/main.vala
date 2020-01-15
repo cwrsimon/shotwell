@@ -483,9 +483,9 @@ void main(string[] args) {
             warning("Failed to create backup file of database: %s",
                     error.message);
         }
-        // TODO cwrsimon Disable when on running on Windows
-        // https://valadoc.org/gio-2.0/GLib.File.copy.html
-       // Posix.sync();
+	#if POSIX        
+	Posix.sync();
+	#endif
     }
 }
 

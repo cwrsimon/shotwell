@@ -51,7 +51,9 @@ gio = dependency('gio-2.0', version: '>= 2.40')
 gmodule = dependency('gmodule-2.0', version: '>= 2.40')
 gee = dependency('gee-0.8', version: '>= 0.8.5')
 # only required for publisher plugins
-#webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
+if not enableWindowsSupport
+webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
+endif
 soup = dependency('libsoup-2.4')
 json_glib = dependency('json-glib-1.0')
 xml = dependency('libxml-2.0')
@@ -76,10 +78,10 @@ if unity.found() and get_option('unity-support')
   add_global_arguments(['--define=UNITY_SUPPORT'], language : 'vala')
 endif
 
-#foreach publisher : get_option('publishers').split(',')
-#  add_global_arguments(['--define=HAVE_@0@'.format(publisher.to_upper())],
-#                       language : 'vala')
-#endforeach
+foreach publisher : get_option('publishers').split(',')
+  add_global_arguments(['--define=HAVE_@0@'.format(publisher.to_upper())],
+                       language : 'vala')
+endforeach
 
 foreach trace : get_option('trace').split(',')
   add_global_arguments(['--define=TRACE_@0@'.format(trace.to_upper().underscorify())],
@@ -111,9 +113,10 @@ endif
 
 json_glib = dependency('json-glib-1.0')
 gdata = dependency('libgdata')
-# TODO Who needs this?
-#gcr = dependency('gcr-3')
-#gcr_ui = dependency('gcr-ui-3')
+if not enableWindowsSupport
+gcr = dependency('gcr-3')
+gcr_ui = dependency('gcr-ui-3')
+endif
 cairo = dependency('cairo')
 
 valac = meson.get_compiler('vala')

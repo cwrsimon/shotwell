@@ -305,7 +305,6 @@ public class CustomPrintTab : Gtk.Box {
     private bool is_text_insertion_in_progress = false;
     private PrintJob source_job;
 
-
     public CustomPrintTab(PrintJob source_job) {
         this.source_job = source_job;
 
@@ -490,6 +489,8 @@ public class CustomPrintTab : Gtk.Box {
         if (length == -1)
             length = (int) text.length;
 
+	// TODo Vereinheitliche
+	//         unowned string decimal_point = Posix.nl_langinfo (Posix.NLItem.RADIXCHAR);
         string decimal_point = locale_get_decimal();
 
         bool contains_decimal_point = sender.get_text().contains(decimal_point);
