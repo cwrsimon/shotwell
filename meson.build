@@ -132,7 +132,7 @@ subdir('help')
 subdir('misc')
 subdir('thumbnailer')
 subdir('settings-migrator')
-#subdir('test')
+subdir('test')
 subdir('app-icons')
 
 meson.add_install_script('build-aux/meson/postinstall.py')

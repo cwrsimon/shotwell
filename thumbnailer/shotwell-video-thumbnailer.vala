@@ -24,14 +24,13 @@ class ShotwellThumbnailer {
         uint8[]? pngdata;
         int64 duration, position;
         Gst.StateChangeReturn ret;
-        
-    #if ENABLE_WINDOWS
-        set_priority_level_low();
-    #else
-        // Posix.nice is only supported on POSIX systems
+
+    #if POSIX
         if (Posix.nice (19) < 0) {
             debug ("Failed to reduce thumbnailer nice level. Continuing anyway");
         }
+    #elif ENABLE_WINDOWS
+        set_priority_level_low();
     #endif
 
         Gst.init(ref args);

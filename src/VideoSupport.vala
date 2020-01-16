@@ -45,7 +45,6 @@ public class VideoReader {
     private double clip_duration = UNKNOWN_CLIP_DURATION;
     private Gdk.Pixbuf preview_frame = null;
     private File file = null;
-    
     private Subprocess? thumbnailer_process = null;
     public DateTime? timestamp { get; private set; default = null; }
 
@@ -250,16 +249,10 @@ public class VideoReader {
     // Note: not thread-safe if called from the same instance of the class.
     private Gdk.Pixbuf? thumbnailer(string video_file) {
         // Use Shotwell's thumbnailer, redirect output to stdout.
-        print("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
+        debug("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
          
         File video_file_path = File.new_for_path(video_file);
         File working_dir = video_file_path.get_parent();
-        
-        // TODO 
-        //"start",
-        // nice level equivalent on Windows
-          //                  "/LOW", 
-        //                    "/B",
         
         string[] argv = { 
                         AppDirs.get_thumbnailer_bin().get_path(),
@@ -285,7 +278,6 @@ public class VideoReader {
         
         // Read pixbuf from stream.
         Gdk.Pixbuf? buf = null;
-        
         try {
             Bytes pixbuf_bytes;
             string pixbuf_base64;
@@ -308,8 +300,6 @@ public class VideoReader {
         Source.remove (timeout);
         return buf;
     }
-    
-    
     
     private bool does_file_exist() {
         return FileUtils.test(file.get_path(), FileTest.EXISTS | FileTest.IS_REGULAR);

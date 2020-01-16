@@ -4,8 +4,9 @@
  * See the COPYING file in this distribution.
  */
 
-// TODO cwrsimon Is this the right place?
+#if ENABLE_WINDOWS
 extern string locale_get_decimal ();
+#endif
 
 
 public enum ContentLayout {
@@ -489,9 +490,13 @@ public class CustomPrintTab : Gtk.Box {
         if (length == -1)
             length = (int) text.length;
 
-	// TODo Vereinheitliche
-	//         unowned string decimal_point = Posix.nl_langinfo (Posix.NLItem.RADIXCHAR);
-        string decimal_point = locale_get_decimal();
+        #if POSIX
+            unowned string decimal_point = Posix.nl_langinfo (Posix.NLItem.RADIXCHAR);
+        #elif ENABLE_WINDOWS
+            string decimal_point = locale_get_decimal();
+        #else
+            string decimal_point = ".";
+        #endif
 
         bool contains_decimal_point = sender.get_text().contains(decimal_point);
 

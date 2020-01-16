@@ -201,7 +201,7 @@ class AppDirs {
     
     public static File get_temp_dir() {
         if (tmp_dir == null) {
-            // TODO
+            // TODO cwrsimon
 //            tmp_dir = File.new_for_path(DirUtils.mkdtemp (Environment.get_tmp_dir() + "/shotwell-XXXXXX"));
             tmp_dir = File.new_for_path( Environment.get_tmp_dir() + "/shotwell-XXXXXX" );
             
@@ -318,7 +318,6 @@ class AppDirs {
     
     public static File get_thumbnailer_bin() {
         const string filename = "shotwell-video-thumbnailer";
-
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {
             // If we're running installed.
@@ -340,9 +339,7 @@ class AppDirs {
         }
 
         return f;
-
     }
-    
 
     public static File get_settings_migrator_bin() {
         const string filename = "shotwell-settings-migrator";
