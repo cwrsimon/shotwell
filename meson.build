@@ -53,6 +53,8 @@ gee = dependency('gee-0.8', version: '>= 0.8.5')
 # only required for publisher plugins
 if not enableWindowsSupport
 webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
+else
+webkit = dependency('webkit2gtk-4.0', version: '>= 2.4', required: false)
 endif
 soup = dependency('libsoup-2.4')
 json_glib = dependency('json-glib-1.0')
@@ -132,7 +134,9 @@ subdir('help')
 subdir('misc')
 subdir('thumbnailer')
 subdir('settings-migrator')
-subdir('test')
+if not enableWindowsSupport
+	subdir('test')
+endif
 subdir('app-icons')
 
 meson.add_install_script('build-aux/meson/postinstall.py')

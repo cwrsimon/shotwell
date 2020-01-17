@@ -45,7 +45,17 @@ cd build/src/
 ```
 ninja -C build install
 ```
-    
+
+8. Build a zippable distro:
+```
+mkdir distro
+export DESTDIR=`pwd`/distro    
+ninja -C build install
+sh determineDepDlls.sh > required-dlls.txt
+sh copy-dlls.sh
+zip -r shotwell-0.30.8.zip distro/
+```
+
 ## Introduction
 Shotwell is a digital photo manager designed for the GNOME desktop
 environment.  It allows you to import photos from disk or camera,

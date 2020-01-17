@@ -236,7 +236,7 @@ public class VideoReader {
     
     // Used by thumbnailer() to kill the external process if need be.
     private bool on_thumbnailer_timer() {
-        print("Thumbnailer timer called\n");
+        debug("Thumbnailer timer called\n");
         if (thumbnailer_process != null) {
             thumbnailer_process.force_exit();
         }
@@ -267,9 +267,9 @@ public class VideoReader {
                 //thumbnailer_process = new GLib.Subprocess(SubprocessFlags.STDOUT_PIPE,
                 //                                          AppDirs.get_thumbnailer_bin().get_path(),
                 //                                        video_file);
-            print("Spawned thumbnailer, child id: %s", thumbnailer_process.get_identifier());
+            debug("Spawned thumbnailer, child id: %s", thumbnailer_process.get_identifier());
         } catch (Error e) {
-            print("Error spawning process: %s", e.message);
+            debug("Error spawning process: %s", e.message);
             return null;
         }
         
@@ -292,7 +292,7 @@ public class VideoReader {
             buf = loader.get_pixbuf();
            
         } catch (Error e) {
-            print("Error creating pixbuf: %s", e.message);
+            debug("Error creating pixbuf: %s", e.message);
             buf = null;
         }
         

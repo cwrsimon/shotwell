@@ -317,7 +317,10 @@ class AppDirs {
     }
     
     public static File get_thumbnailer_bin() {
-        const string filename = "shotwell-video-thumbnailer";
+        string filename = "shotwell-video-thumbnailer";
+        #if ENABLE_WINDOWS
+        filename += ".exe";
+        #endif
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {
             // If we're running installed.

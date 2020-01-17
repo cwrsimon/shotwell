@@ -1,6 +1,6 @@
 # Plugin helper library
 
-sw_plugin_common_deps = [gtk, gee, soup, xml, sw_plugin, webkit]
+sw_plugin_common_deps = [gtk, gee, soup, xml, sw_plugin]
 
 webkit_sources = []
 if webkit.found()
