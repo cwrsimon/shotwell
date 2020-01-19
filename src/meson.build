@@ -39,7 +39,8 @@ endif
 
 windows_sources = []
 if enableWindowsSupport
-  windows_sources += ['windows.c']
+  compiled_rc = windows.compile_resources ( 'shotwell.rc' )
+  windows_sources += ['windows.c', compiled_rc]
 endif
 
 executable('shotwell',
@@ -255,7 +256,6 @@ executable('shotwell',
                           'org.gnome.Shotwell.gresource.xml')
                        ],
            link_with: [sw_graphics_processor],
-           objects: 'shotwell.res',
            install : true,
            gui_app : true
 		)

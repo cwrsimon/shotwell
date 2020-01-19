@@ -6,10 +6,6 @@ project('shotwell', ['vala', 'c'],
 gnome = import('gnome')
 i18n = import('i18n')
 
-# TODO Continue from here ...
-# TODO don't precompile rc file: 
-# https://mesonbuild.com/Windows-module.html#page-description
-# 
 enableWindowsSupport = host_machine.system() == 'windows'
 if enableWindowsSupport
   windows = import('windows')
