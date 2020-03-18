@@ -237,7 +237,7 @@ namespace Jpeg {
         uint16 length = dins.read_uint16();
         if (length < 2 && fins is Seekable) {
             debug("Invalid length %Xh at ofs %" + int64.FORMAT + "Xh", length,
-                    (fins as Seekable).tell() - 2);
+                    ((Seekable) fins).tell() - 2);
             
             return -1;
         }

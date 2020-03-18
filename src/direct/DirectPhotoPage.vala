@@ -220,7 +220,7 @@ public class DirectPhotoPage : EditingHostPage {
             return true;
         } else {
             if (get_container() is DirectWindow) {
-                (get_container() as DirectWindow).do_fullscreen();
+                ( (DirectWindow) get_container() ).do_fullscreen();
 
                 return true;
             }

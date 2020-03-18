@@ -7,7 +7,6 @@
 /mingw64/bin/libcairo-2.dll 
 /mingw64/bin/libcairo-gobject-2.dll 
 /mingw64/bin/libchromaprint.dll 
-/mingw64/bin/libcroco-0.6-3.dll 
 /mingw64/bin/libcrypto-1_1-x64.dll 
 /mingw64/bin/libcurl-4.dll 
 /mingw64/bin/libdatrie-1.dll 
@@ -33,6 +32,7 @@
 /mingw64/bin/libgdk-3-0.dll 
 /mingw64/bin/libgee-0.8-2.dll 
 /mingw64/bin/libgexiv2-2.dll 
+/mingw64/bin/libgfortran-5.dll 
 /mingw64/bin/libgio-2.0-0.dll 
 /mingw64/bin/libglib-2.0-0.dll 
 /mingw64/bin/libgme.dll 
@@ -57,6 +57,7 @@
 /mingw64/bin/libgstisoff-1.0-0.dll 
 /mingw64/bin/libgstmpegts-1.0-0.dll 
 /mingw64/bin/libgstnet-1.0-0.dll 
+/mingw64/bin/libgstopencv-1.0-0.dll 
 /mingw64/bin/libgstpbutils-1.0-0.dll 
 /mingw64/bin/libgstphotography-1.0-0.dll 
 /mingw64/bin/libgstreamer-1.0-0.dll 
@@ -93,6 +94,16 @@
 /mingw64/bin/libnice-10.dll 
 /mingw64/bin/libogg-0.dll 
 /mingw64/bin/libopenal-1.dll 
+/mingw64/bin/libopenblas.dll 
+/mingw64/bin/libopencv_bgsegm420.dll 
+/mingw64/bin/libopencv_calib3d420.dll 
+/mingw64/bin/libopencv_core420.dll 
+/mingw64/bin/libopencv_features2d420.dll 
+/mingw64/bin/libopencv_flann420.dll 
+/mingw64/bin/libopencv_imgcodecs420.dll 
+/mingw64/bin/libopencv_imgproc420.dll 
+/mingw64/bin/libopencv_objdetect420.dll 
+/mingw64/bin/libopencv_video420.dll 
 /mingw64/bin/libopenh264.dll 
 /mingw64/bin/libopenjp2-7.dll 
 /mingw64/bin/libopus-0.dll 
@@ -107,6 +118,7 @@
 /mingw64/bin/libpng16-16.dll 
 /mingw64/bin/libportaudio-2.dll 
 /mingw64/bin/libpsl-5.dll 
+/mingw64/bin/libquadmath-0.dll 
 /mingw64/bin/libraw-19.dll 
 /mingw64/bin/libreadline8.dll 
 /mingw64/bin/librsvg-2-2.dll 
@@ -119,6 +131,7 @@
 /mingw64/bin/libsqlite3-0.dll 
 /mingw64/bin/libsrt.dll 
 /mingw64/bin/libsrtp2.dll 
+/mingw64/bin/libssh2-1.dll 
 /mingw64/bin/libssl-1_1-x64.dll 
 /mingw64/bin/libstdc++-6.dll 
 /mingw64/bin/libsystre-0.dll 
@@ -148,4 +161,5 @@
 /mingw64/bin/libzbar-0.dll 
 /mingw64/bin/libzstd.dll 
 /mingw64/bin/SDL2.dll 
+/mingw64/bin/tbb.dll 
 /mingw64/bin/zlib1.dll 

@@ -790,6 +790,7 @@ public class Sidebar.Tree : Gtk.TreeView {
         store.set(iter, Columns.ICON, icon);
     }
     
+    /* never used
     private void load_branch_icons(Gtk.TreeIter iter) {
         load_entry_icons(iter);
         
@@ -800,6 +801,7 @@ public class Sidebar.Tree : Gtk.TreeView {
             } while (store.iter_next(ref child_iter));
         }
     }
+     */
     
     private bool on_selection(Gtk.TreeSelection selection, Gtk.TreeModel model, Gtk.TreePath path,
         bool path_currently_selected) {
