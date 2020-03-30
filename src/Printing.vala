@@ -4,6 +4,11 @@
  * See the COPYING file in this distribution.
  */
 
+#if ENABLE_WINDOWS
+extern string locale_get_decimal ();
+#endif
+
+
 public enum ContentLayout {
     STANDARD_SIZE,
     CUSTOM_SIZE,
@@ -485,7 +490,13 @@ public class CustomPrintTab : Gtk.Box {
         if (length == -1)
             length = (int) text.length;
 
-        unowned string decimal_point = Posix.nl_langinfo (Posix.NLItem.RADIXCHAR);
+        #if POSIX
+            unowned string decimal_point = Posix.nl_langinfo (Posix.NLItem.RADIXCHAR);
+        #elif ENABLE_WINDOWS
+            string decimal_point = locale_get_decimal();
+        #else
+            string decimal_point = ".";
+        #endif
 
         bool contains_decimal_point = sender.get_text().contains(decimal_point);
 

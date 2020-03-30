@@ -36,15 +36,23 @@ if get_option('face-detection')
 endif
 
 shotwell_deps = [gio, gee, sqlite, gtk, sqlite, posix, gphoto2,
-                 gstreamer_pbu, gio_unix, gudev, gexiv2, gmodule,
+                 gstreamer_pbu, gudev, gexiv2, gmodule,
                  libraw, libexif, sw_plugin, webpdemux, webp, version,
                  clutter, clutter_gtk, champlain, champlain_gtk]
 
+if !enableWindowsSupport
+  shotwell_deps += [ gio_unix ]
+endif
 if unity_available
     shotwell_deps += [unity]
 endif
 
 subdir('publishing')
+windows_sources = []
+if enableWindowsSupport
+  compiled_rc = windows.compile_resources ( 'shotwell.rc' )
+  windows_sources += ['windows.c', compiled_rc]
+endif
 
 executable('shotwell',
            ['unit/Unit.vala',
@@ -263,7 +271,7 @@ executable('shotwell',
             '.unitize/_DataImportsInternals.vala',
             '.unitize/_FoldersInternals.vala',
             '.unitize/_Library_unitize_entry.vala',
-            '.unitize/_Direct_unitize_entry.vala'] + shotwell_resources + face_sources,
+            '.unitize/_Direct_unitize_entry.vala'] + shotwell_resources + face_sources + windows_sources,
            include_directories : vapi_incdir,
            dependencies : [
                shotwell_deps,
@@ -277,7 +285,7 @@ executable('shotwell',
                         join_paths(meson.source_root(), 'data',
                           'org.gnome.Shotwell.gresource.xml')
                        ],
-           link_with: [
-               sw_graphics_processor
-           ],
-           install : true)
+           link_with: [sw_graphics_processor],
+           install : true,
+           gui_app : true
+		)

@@ -242,10 +242,23 @@ public class VideoReader {
     private Gdk.Pixbuf? thumbnailer(string video_file) {
         // Use Shotwell's thumbnailer, redirect output to stdout.
         debug("Launching thumbnailer process: %s", AppDirs.get_thumbnailer_bin().get_path());
+        
+	    string[] argv = { 
+                AppDirs.get_thumbnailer_bin().get_path(),
+                video_file 
+        };
+
         try {
-            thumbnailer_process = new GLib.Subprocess(SubprocessFlags.STDOUT_PIPE,
-                                          AppDirs.get_thumbnailer_bin().get_path(),
-                                          video_file);
+		    SubprocessLauncher launcher = new GLib.SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+            #if ENABLE_WINDOWS
+                File video_file_path = File.new_for_path(video_file);
+                File working_dir = video_file_path.get_parent();
+                launcher.set_cwd (working_dir.get_path());
+                argv[1] = video_file_path.get_basename();
+            #endif
+
+            thumbnailer_process = launcher.spawnv (argv);
+
             debug("Spawned thumbnailer, child id: %s", thumbnailer_process.get_identifier());
         } catch (Error e) {
             debug("Error spawning process: %s", e.message);
@@ -259,7 +272,15 @@ public class VideoReader {
         Gdk.Pixbuf? buf = null;
         try {
             Bytes pixbuf_bytes;
+	    #if POSIX
             thumbnailer_process.communicate(null, null, out pixbuf_bytes, null);
+	    #else
+		    string pixbuf_base64;
+            	thumbnailer_process.communicate_utf8(null, null, out pixbuf_base64, null);
+
+	        var pngData = Base64.decode(pixbuf_base64);
+        	pixbuf_bytes = new Bytes(pngData);
+	    #endif
             var loader = new Gdk.PixbufLoader.with_type("png");
             loader.write_bytes(pixbuf_bytes);
             loader.close();

@@ -16,11 +16,15 @@ shotwell_transitions_resources = gnome.compile_resources('transitions-resource',
 
 cc = meson.get_compiler('c')
 libm = cc.find_library('m', required : false)
+webkit_deps = []
+if webkit.found()
+webkit_deps += [webkit]
+endif
 
 shared_module('shotwell-transitions',
               shotwell_transitions_sources + shotwell_transitions_resources,
               dependencies : [gio, gdk_pixbuf, cairo, gtk, gdk, xml, sw_plugin,
-                              sw_plugin_common_dep, gee, soup, webkit, libm],
+                              sw_plugin_common_dep, gee, soup, libm] + webkit_deps,
               vala_args : [
                   '--gresources', 'org.gnome.Shotwell.Transitions.gresource.xml',
                   ],

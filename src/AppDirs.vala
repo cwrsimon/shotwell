@@ -14,7 +14,11 @@ class AppDirs {
     
     // Because this is called prior to Debug.init(), this function cannot do any logging calls
     public static void init(string arg0) {
-        File exec_file = File.new_for_path(Posix.realpath(Environment.find_program_in_path(arg0)));
+	#if POSIX
+		File exec_file = File.new_for_path(Posix.realpath(Environment.find_program_in_path(arg0)));
+	#else
+		File exec_file = File.new_for_path(Environment.find_program_in_path(arg0));
+	#endif
         exec_dir = exec_file.get_parent();
     }
     
@@ -197,8 +201,12 @@ class AppDirs {
     
     public static File get_temp_dir() {
         if (tmp_dir == null) {
+        #if POSIX
             tmp_dir = File.new_for_path(DirUtils.mkdtemp (Environment.get_tmp_dir() + "/shotwell-XXXXXX"));
             
+        #elif
+            tmp_dir = File.new_for_path( Environment.get_tmp_dir() + "/shotwell-XXXXXX" );
+        #endif
             try {
                 if (!tmp_dir.query_exists(null))
                     tmp_dir.make_directory_with_parents(null);
@@ -280,7 +288,13 @@ class AppDirs {
             return get_exec_dir();
         }
         
-        return install_dir.get_child(Resources.LIB).get_child("shotwell");
+        File install_lib_dir = install_dir.get_child(Resources.LIB).get_child("shotwell");
+        if ( install_lib_dir.query_exists() ) {
+            return install_lib_dir;
+        }
+
+        // last try, return lib dir relative to the execution dir
+        return get_exec_dir().get_parent().get_child ("lib").get_child("shotwell");
     }
     
     public static File get_system_plugins_dir() {
@@ -305,7 +319,10 @@ class AppDirs {
     }
     
     public static File get_thumbnailer_bin() {
-        const string filename = "shotwell-video-thumbnailer";
+        string filename = "shotwell-video-thumbnailer";
+        #if ENABLE_WINDOWS
+        filename += ".exe";
+        #endif
         File f = AppDirs.get_libexec_dir().get_child("thumbnailer").get_child (filename);
         if (!f.query_exists()) {
             // If we're running installed.
@@ -314,6 +331,16 @@ class AppDirs {
 
         if (!f.query_exists()) {
             f = AppDirs.get_libexec_dir().get_parent().get_child("thumbnailer").get_child(filename);
+        }
+
+        if (!f.query_exists()) {
+            // relative to execution dir (the same where shotwell.exe should be)
+            f = AppDirs.get_exec_dir().get_child (filename);
+        }
+
+        if (!f.query_exists()) {
+            // are we running shotwell from src?
+            f = AppDirs.get_exec_dir().get_parent().get_child("thumbnailer").get_child (filename);
         }
 
         return f;

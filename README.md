@@ -1,6 +1,61 @@
 # Shotwell Photo Manager
 ----------------------
 
+This fork of Shotwell aims to provide a documentation as well as a 
+modified code base that allow to build and run Shotwell 0.30.7 
+on Windows within a MINGW environment. 
+
+Features currently not working / not compilable:
+- publishers (webkit-gtk is not available in MSYS2 yet)
+
+## Installing on Windows
+
+1. Setup an MSYS2 environment on your machine:
+http://www.msys2.org/
+
+2. Update your environment:
+```
+pacman -Syu
+```
+
+3. Clone this git repository:
+```
+git clone https://github.com/cwrsimon/shotwell.git
+```
+
+4. Install the required packages from pkglist.txt:
+```
+pacman -S --needed - < required-packages.txt
+```
+
+5. Fire up meson and ninja:
+```
+cd shotwell
+meson build
+ninja -C build
+```
+
+6. Test the build:
+```
+cd build/src/
+./shotwell.exe
+```
+
+7. Install to /mingw64:
+```
+ninja -C build install
+```
+
+8. Build a zippable distro:
+```
+mkdir distro
+export DESTDIR=`pwd`/distro    
+ninja -C build install
+sh determineDepDlls.sh > required-dlls.txt
+sh copy-dlls.sh
+zip -r shotwell-0.30.8.zip distro/
+```
+
 ## Introduction
 Shotwell is a digital photo manager designed for the GNOME desktop
 environment.  It allows you to import photos from disk or camera,

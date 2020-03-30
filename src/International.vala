@@ -21,12 +21,21 @@ void init(string package_name, string[] args, string locale = SYSTEM_LOCALE) {
 }
 
 private string get_langpack_dir_path(string[] args) {
-    File local_langpack_dir =
-        File.new_for_path(Environment.find_program_in_path(args[0])).get_parent().get_parent().get_child(
+    File base_dir = File.new_for_path(Environment.find_program_in_path(args[0])).get_parent().get_parent();
+    File local_langpack_dir = base_dir.get_child(
         "locale-langpack");
 
-    return (local_langpack_dir.query_exists(null)) ? local_langpack_dir.get_path() :
-        LANGUAGE_SUPPORT_DIRECTORY;
+    if (local_langpack_dir.query_exists(null)) {
+        return 	local_langpack_dir.get_path();
+    }
+
+    // relative to execution directory
+    File share_locale_dir = base_dir.get_child("share").get_child("locale");
+    if (share_locale_dir.query_exists(null)) {
+     return share_locale_dir.get_path();
+    }
+
+    return LANGUAGE_SUPPORT_DIRECTORY;
 }
 }
 

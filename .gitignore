@@ -82,3 +82,5 @@ virtualization/vagrant/config
 
 # Visual Studio Code
 .vscode
+*.exe
+*.zip

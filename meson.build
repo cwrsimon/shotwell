@@ -6,6 +6,11 @@ project('shotwell', ['vala', 'c'],
 gnome = import('gnome')
 i18n = import('i18n')
 
+enableWindowsSupport = host_machine.system() == 'windows'
+if enableWindowsSupport
+  windows = import('windows')
+endif
+
 conf = configuration_data()
 conf.set_quoted('GETTEXT_PACKAGE', meson.project_name().to_lower())
 conf.set_quoted('_VERSION', meson.project_version())
@@ -13,6 +18,7 @@ conf.set_quoted('_PREFIX', get_option('prefix'))
 conf.set_quoted('_LANG_SUPPORT_DIR', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set_quoted('_LIBEXECDIR', join_paths(get_option('prefix'), get_option('libexecdir')))
 conf.set_quoted('_LIB', join_paths(get_option('prefix'), get_option('libdir')))
+conf.set_quoted('_WINDOWS', enableWindowsSupport)
 configure_file(output : 'config.h', configuration: conf)
 
 config_incdir = include_directories('.')
@@ -47,9 +53,13 @@ version = declare_dependency(sources : version_h, include_directories : include_
 gtk = dependency('gtk+-3.0', version : '>= 3.22')
 gio = dependency('gio-2.0', version: '>= 2.40')
 gmodule = dependency('gmodule-2.0', version: '>= 2.40')
-gio_unix = dependency('gio-unix-2.0', version: '>= 2.40')
 gee = dependency('gee-0.8', version: '>= 0.8.5')
+# only required for publisher plugins
+if not enableWindowsSupport
 webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
+else
+webkit = dependency('webkit2gtk-4.0', version: '>= 2.4', required: false)
+endif
 soup = dependency('libsoup-2.4')
 json_glib = dependency('json-glib-1.0')
 xml = dependency('libxml-2.0')
@@ -113,10 +123,18 @@ if get_option('face-detection')
   endif
 endif
 
+if enableWindowsSupport
+  add_global_arguments(['--define=ENABLE_WINDOWS'], language : 'vala')
+endif
+
+
 json_glib = dependency('json-glib-1.0')
 gdata = dependency('libgdata')
+if not enableWindowsSupport
+gio_unix = dependency('gio-unix-2.0', version: '>= 2.40')
 gcr = dependency('gcr-3')
 gcr_ui = dependency('gcr-ui-3')
+endif
 cairo = dependency('cairo')
 
 valac = meson.get_compiler('vala')
@@ -128,6 +146,8 @@ subdir('plugins')
 subdir('po')
 subdir('help')
 subdir('thumbnailer')
-subdir('test')
+if not enableWindowsSupport
+  subdir('test')
+endif
 
 meson.add_install_script('build-aux/meson/postinstall.py')

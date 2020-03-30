@@ -9,6 +9,11 @@
 
 // Shotwell Thumbnailer takes in a video file and returns a thumbnail to stdout.  This is
 // a replacement for totem-video-thumbnailer
+
+#if ENABLE_WINDOWS
+extern void set_priority_level_low();
+#endif
+
 class ShotwellThumbnailer {
     const string caps_string = """video/x-raw,format=RGB,pixel-aspect-ratio=1/1""";
 
@@ -20,12 +25,15 @@ class ShotwellThumbnailer {
         int64 duration, position;
         Gst.StateChangeReturn ret;
         var out = FileStream.fdopen(Posix.dup(stdout.fileno()), "wb");
-
-        if (Posix.nice (19) < 0) {
-            debug ("Failed to reduce thumbnailer nice level. Continuing anyway");
-        }
-
-        Gst.init(ref args);
+    
+	    #if POSIX
+            if (Posix.nice (19) < 0) {
+                debug ("Failed to reduce thumbnailer nice level. Continuing anyway");
+            }
+    	#elif ENABLE_WINDOWS
+        	set_priority_level_low();
+    	#endif
+	    Gst.init(ref args);
 
         var registry = Gst.Registry.@get ();
         var features = registry.feature_filter ((f) => {
@@ -121,7 +129,15 @@ class ShotwellThumbnailer {
                 pixbuf = pixbuf.rotate_simple(direction);
             }
             pixbuf.save_to_buffer(out pngdata, "png");
-            out.write(pngdata);
+	    
+	        #if ENABLE_WINDOWS
+                // Instead of the raw binary content,
+                // we will send the content in Base64.
+                string base64_content = Base64.encode( pngdata);
+                stdout.printf("%s", base64_content);
+            #elif
+		        stdout.write(pngdata);
+            #endif
 
             // cleanup and exit.
             pipeline.set_state(Gst.State.NULL);

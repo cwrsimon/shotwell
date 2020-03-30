@@ -511,7 +511,9 @@ void main(string[] args) {
             warning("Failed to create backup file of database: %s",
                     error.message);
         }
-        Posix.sync();
+        #if POSIX        
+            Posix.sync();
+        #endif
     }
 }
 
