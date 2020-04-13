@@ -1,147 +1,147 @@
 <schemalist gettext-domain="shotwell">
 
-  <schema id="org.yorba.shotwell" path="/org/yorba/shotwell/">
-    <child name="preferences" schema="org.yorba.shotwell.preferences" />
-    <child name="sharing" schema="org.yorba.shotwell.sharing" />
-    <child name="video" schema="org.yorba.shotwell.video" />
-    <child name="printing" schema="org.yorba.shotwell.printing" />
-    <child name="plugins" schema="org.yorba.shotwell.plugins" />
+  <schema id="org.gnome.shotwell" path="/org/gnome/shotwell/">
+    <child name="preferences" schema="org.gnome.shotwell.preferences" />
+    <child name="sharing" schema="org.gnome.shotwell.sharing" />
+    <child name="video" schema="org.gnome.shotwell.video" />
+    <child name="printing" schema="org.gnome.shotwell.printing" />
+    <child name="plugins" schema="org.gnome.shotwell.plugins" />
 </schema>
 
-<schema id="org.yorba.shotwell.preferences" path="/org/yorba/shotwell/preferences/">
-    <child name="ui" schema="org.yorba.shotwell.preferences.ui" />
-    <child name="slideshow" schema="org.yorba.shotwell.preferences.slideshow" />
-    <child name="window" schema="org.yorba.shotwell.preferences.window" />
-    <child name="files" schema="org.yorba.shotwell.preferences.files" />
-    <child name="editing" schema="org.yorba.shotwell.preferences.editing" />
-    <child name="export" schema="org.yorba.shotwell.preferences.export" />
+<schema id="org.gnome.shotwell.preferences" path="/org/gnome/shotwell/preferences/">
+    <child name="ui" schema="org.gnome.shotwell.preferences.ui" />
+    <child name="slideshow" schema="org.gnome.shotwell.preferences.slideshow" />
+    <child name="window" schema="org.gnome.shotwell.preferences.window" />
+    <child name="files" schema="org.gnome.shotwell.preferences.files" />
+    <child name="editing" schema="org.gnome.shotwell.preferences.editing" />
+    <child name="export" schema="org.gnome.shotwell.preferences.export" />
 </schema>
 
-<schema id="org.yorba.shotwell.preferences.ui">
+<schema id="org.gnome.shotwell.preferences.ui">
     <key name="display-basic-properties" type="b">
         <default>true</default>
         <summary>display basic properties</summary>
-        <description>True if the basic properties pane is to be displayed, false otherwise.</description>
+        <description>True if the basic properties pane is to be displayed, false otherwise</description>
     </key>
 
     <key name="display-extended-properties" type="b">
         <default>false</default>
         <summary>display extended properties</summary>
-        <description>True if the extended properties window is to be displayed, false otherwise.</description>
+        <description>True if the extended properties window is to be displayed, false otherwise</description>
     </key>
 
     <key name="display-sidebar" type="b">
         <default>true</default>
         <summary>display sidebar</summary>
-        <description>True if the sidebar is to be displayed, false otherwise.</description>
+        <description>True if the sidebar is to be displayed, false otherwise</description>
     </key>
 
     <key name="display-toolbar" type="b">
         <default>true</default>
         <summary>display toolbar</summary>
-        <description>True if the bottom toolbar is to be displayed, false otherwise.</description>
+        <description>True if the bottom toolbar is to be displayed, false otherwise</description>
     </key>
 
     <key name="display-map-widget" type="b">
         <default>true</default>
         <summary>display map widget</summary>
-        <description>True if the map widget is to be displayed, false otherwise.</description>
+        <description>True if the map widget is to be displayed, false otherwise</description>
     </key>
 
     <key name="display-search-bar" type="b">
         <default>false</default>
         <summary>display search bar</summary>
-        <description>True if the Search/Filter Toolbar is to be displayed, false otherwise.</description>
+        <description>True if the Search/Filter Toolbar is to be displayed, false otherwise</description>
     </key>
 
     <key name="display-photo-titles" type="b">
         <default>false</default>
         <summary>display photo titles</summary>
-        <description>True if photo titles are to be displayed beneath thumbnails in collection views, false otherwise.</description>
+        <description>True if photo titles are to be displayed beneath thumbnails in collection views, false otherwise</description>
     </key>
 
     <key name="display-photo-comments" type="b">
         <default>false</default>
         <summary>display photo comments</summary>
-        <description>True if photo comments are to be displayed beneath thumbnails in collection views, false otherwise.</description>
+        <description>True if photo comments are to be displayed beneath thumbnails in collection views, false otherwise</description>
     </key>
 
     <key name="display-event-comments" type="b">
         <default>false</default>
         <summary>display event comments</summary>
-        <description>True if event comments are to be displayed beneath thumbnails in event views, false otherwise.</description>
+        <description>True if event comments are to be displayed beneath thumbnails in event views, false otherwise</description>
     </key>
 
     <key name="display-photo-tags" type="b">
         <default>true</default>
         <summary>display photo tags</summary>
-        <description>True if photo tags are to be listed beneath thumbnails in collection views, false otherwise.</description>
+        <description>True if photo tags are to be listed beneath thumbnails in collection views, false otherwise</description>
     </key>
 
     <key name="display-photo-ratings" type="b">
         <default>true</default>
         <summary>display photo ratings</summary>
-        <description>True if a photo’s rating should be displayed as overlaid trinket, false otherwise.</description>
+        <description>True if a photo’s rating should be displayed as overlaid trinket, false otherwise</description>
     </key>
 
     <key name="photo-rating-filter" type="i">
         <default>0</default>
         <summary>rating filter level</summary>
-        <description>Determines how to filter photos based on their ratings. 1: Rejected or better, 2: Unrated or better, 3: One or better, 4: Two or better, 5: Three or better, 6: Four or better, 7: Five or better.</description>
+        <description>Determines how to filter photos based on their ratings. 1: Rejected or better, 2: Unrated or better, 3: One or better, 4: Two or better, 5: Three or better, 6: Four or better, 7: Five or better</description>
     </key>
 
     <key name="events-sort-ascending" type="b">
         <default>false</default>
         <summary>sort events ascending</summary>
-        <description>True if events should be sorted ascending, false if descending.</description>
+        <description>True if events should be sorted ascending, false if descending</description>
     </key>
 
     <key name="library-photos-sort-ascending" type="b">
         <default>false</default>
         <summary>sort library photos ascending</summary>
-        <description>True if library photos should be sorted ascending, false if descending.</description>
+        <description>True if library photos should be sorted ascending, false if descending</description>
     </key>
 
     <key name="library-photos-sort-by" type="i">
         <default>2</default>
         <summary>sort library photos criteria</summary>
-        <description>A numeric code that specifies the sort criteria for photos in library views.</description>
+        <description>A numeric code that specifies the sort criteria for photos in library views</description>
     </key>
 
     <key name="event-photos-sort-ascending" type="b">
         <default>true</default>
         <summary>sort event photos ascending</summary>
-        <description>True if event photos should be sorted ascending, false if descending.</description>
+        <description>True if event photos should be sorted ascending, false if descending</description>
     </key>
 
     <key name="event-photos-sort-by" type="i">
         <default>2</default>
         <summary>sort event photos criteria</summary>
-        <description>Specifies the sort criteria for event photos.</description>
+        <description>Specifies the sort criteria for event photos</description>
     </key>
 
     <key name="use-24-hour-time" type="b">
         <default>false</default>
         <summary>use 24 hour time</summary>
-        <description>True if should display times with a 24 hour clock, false if times should use AM/PM notation.</description>
+        <description>True if should display times with a 24 hour clock, false if times should use AM/PM notation</description>
     </key>
 
     <key name="keep-relativity" type="b">
         <default>true</default>
         <summary>keep relative time between photos</summary>
-        <description>True if when adjusting time/date of photos, relative time should be maintained.  False if all photos should be set to the same time.</description>
+        <description>True if when adjusting time/date of photos, relative time should be maintained.  False if all photos should be set to the same time</description>
     </key>
 
     <key name="modify-originals" type="b">
         <default>false</default>
         <summary>modify original photo files</summary>
-        <description>True if when adjusting time/date of photos, the original files should be modified as well.  False if changes are made only in the database.</description>
+        <description>True if when adjusting time/date of photos, the original files should be modified as well.  False if changes are made only in the database</description>
     </key>
 
     <key name="show-welcome-dialog" type="b">
         <default>true</default>
         <summary>show welcome dialog on startup</summary>
-        <description>True if, when on startup, a welcome dialog should be shown.  False if it should not be shown.</description>
+        <description>True if, when on startup, a welcome dialog should be shown.  False if it should not be shown</description>
     </key>
 
     <key name="sidebar-position" type="i">
@@ -153,25 +153,25 @@
     <key name="photo-thumbnail-scale" type="i">
         <default>128</default>
         <summary>photo thumbnail scale</summary>
-        <description>The scale of photo thumbnails, ranging from 72 to 360.</description>
+        <description>The scale of photo thumbnails, ranging from 72 to 360</description>
     </key>
 
     <key name="pin-toolbar-state" type="b">
         <default>false</default>
         <summary>pin toolbar state</summary>
-        <description>Pin toolbar in fullscreen, or not.</description>
+        <description>Pin toolbar in fullscreen, or not</description>
     </key>
 
     <key name="use-dark-theme" type="b">
         <default>true</default>
         <summary>prefer GTK+’s dark theme</summary>
-        <description>Whether to use the dark theme of GTK+ for Shotwell or not.</description>
+        <description>Whether to use the dark theme of GTK+ for Shotwell or not</description>
     </key>
 
     <key name="transparent-background-type" type="s">
         <default>'checkered'</default>
         <summary>background for transparent images</summary>
-        <description>The background to use for transparent images.</description>
+        <description>The background to use for transparent images</description>
     </key>
 
     <key name="transparent-background-color" type="s">
@@ -183,15 +183,15 @@
     <key name="hide-photos-already-imported" type="b">
         <default>false</default>
         <summary>Selection state of “hide photos” option</summary>
-        <description>Last used selection state of the “hide photos already imported” option in the import page.</description>
+        <description>Last used selection state of the “hide photos already imported” option in the import page</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.preferences.slideshow">
+<schema id="org.gnome.shotwell.preferences.slideshow">
     <key name="delay" type="d">
         <default>3.0</default>
         <summary>delay</summary>
-        <description>Delay (in seconds) between photos in the slideshow.</description>
+        <description>Delay (in seconds) between photos in the slideshow</description>
     </key>
 
     <key name="transition-delay" type="d">
@@ -213,67 +213,67 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.preferences.window">
+<schema id="org.gnome.shotwell.preferences.window">
     <key name="library-maximize" type="b">
         <default>false</default>
         <summary>maximize library window</summary>
-        <description>True if library application is maximized, false otherwise.</description>
+        <description>True if library application is maximized, false otherwise</description>
     </key>
 
     <key name="library-width" type="i">
         <default>1024</default>
         <summary>width of library window</summary>
-        <description>The last recorded width of the library application window.</description>
+        <description>The last recorded width of the library application window</description>
     </key>
 
     <key name="library-height" type="i">
         <default>768</default>
         <summary>height of library window</summary>
-        <description>The last recorded height of the library application window.</description>
+        <description>The last recorded height of the library application window</description>
     </key>
 
     <key name="direct-maximize" type="b">
         <default>false</default>
         <summary>maximize direct-edit window</summary>
-        <description>True if direct-edit application is maximized, false otherwise.</description>
+        <description>True if direct-edit application is maximized, false otherwise</description>
     </key>
 
     <key name="direct-width" type="i">
         <default>1024</default>
         <summary>width of direct-edit window</summary>
-        <description>The last recorded width of the direct-edit application window.</description>
+        <description>The last recorded width of the direct-edit application window</description>
     </key>
 
     <key name="direct-height" type="i">
         <default>768</default>
         <summary>height of direct-edit window</summary>
-        <description>The last recorded height of the direct-edit application window.</description>
+        <description>The last recorded height of the direct-edit application window</description>
     </key>
 
     <key name="sidebar-position" type="i">
         <default>180</default>
         <summary>sidebar divider position</summary>
-        <description>The last recorded position of the divider between the sidebar and view in library application window.</description>
+        <description>The last recorded position of the divider between the sidebar and view in library application window</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.preferences.files">
+<schema id="org.gnome.shotwell.preferences.files">
     <key name="import-dir" type="s">
         <default>""</default>
         <summary>import directory</summary>
-        <description>Directory in which imported photo files are placed.</description>
+        <description>Directory in which imported photo files are placed</description>
     </key>
 
     <key name="auto-import" type="b">
         <default>false</default>
         <summary>watch library directory for new files</summary>
-        <description>If true, files added to the library directory are automatically imported.</description>
+        <description>If true, files added to the library directory are automatically imported</description>
     </key>
 
     <key name="commit-metadata" type="b">
         <default>false</default>
         <summary>write metadata to master files</summary>
-        <description>If true, changes to metadata (tags, titles, etc.) are written to the master photo file.</description>
+        <description>If true, changes to metadata (tags, titles, etc.) are written to the master photo file</description>
     </key>
 
     <key name="use-lowercase-filenames" type="b">
@@ -285,55 +285,55 @@
     <key name="directory-pattern" type="s">
         <default>""</default>
         <summary>directory pattern</summary>
-        <description>A string encoding a naming pattern that will be used to name photo directories on import.</description>
+        <description>A string encoding a naming pattern that will be used to name photo directories on import</description>
     </key>
 
     <key name="directory-pattern-custom" type="s">
         <default>""</default>
         <summary>directory pattern custom</summary>
-        <description>A string encoding a custom naming pattern that will be used to name photo directories on import.</description>
+        <description>A string encoding a custom naming pattern that will be used to name photo directories on import</description>
     </key>
 
     <key name="raw-developer-default" type="s">
         <default>'CAMERA'</default>
         <summary>RAW developer default</summary>
-        <description>Default option for which RAW developer Shotwell will use.</description>
+        <description>Default option for which RAW developer Shotwell will use</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.crop-settings">
+<schema id="org.gnome.shotwell.crop-settings">
     <key name="last-crop-menu-choice" type="i">
         <default>1</default>
-        <summary>Most-recently-used crop aspect ratio menu choice.</summary>
-        <description>A numeric code representing the last crop menu choice the user made.</description>
+        <summary>Most-recently-used crop aspect ratio menu choice</summary>
+        <description>A numeric code representing the last crop menu choice the user made</description>
     </key>
     <key name="last-crop-width" type="i">
         <default>1</default>
-        <summary>Most-recently-used crop custom aspect ratio’s numerator.</summary>
-        <description>A nonzero, positive integer representing the width part of the last custom crop ratio the user entered.</description>
+        <summary>Most-recently-used crop custom aspect ratio’s numerator</summary>
+        <description>A nonzero, positive integer representing the width part of the last custom crop ratio the user entered</description>
     </key>
     <key name="last-crop-height" type="i">
         <default>1</default>
-        <summary>Most-recently-used crop custom aspect ratio’s denominator.</summary>
-        <description>A nonzero, positive integer representing the height part of the last custom crop ratio the user entered.</description>
+        <summary>Most-recently-used crop custom aspect ratio’s denominator</summary>
+        <description>A nonzero, positive integer representing the height part of the last custom crop ratio the user entered</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.preferences.editing">
+<schema id="org.gnome.shotwell.preferences.editing">
     <key name="external-photo-editor" type="s">
         <default>""</default>
         <summary>external photo editor</summary>
-        <description>External application used to edit photos.</description>
+        <description>External application used to edit photos</description>
     </key>
 
     <key name="external-raw-editor" type="s">
         <default>""</default>
         <summary>external raw editor</summary>
-        <description>External application used to edit RAW photos.</description>
+        <description>External application used to edit RAW photos</description>
     </key>
 </schema>
 
-<enum id="org.yorba.shotwell.ScaleConstraint">
+<enum id="org.gnome.shotwell.ScaleConstraint">
     <value value="0" nick="ORIGINAL" />
     <value value="1" nick="DIMENSIONS" />
     <value value="2" nick="WIDTH" />
@@ -341,14 +341,14 @@
     <value value="4" nick="FILL_VIEWPORT" />
 </enum>
 
-<enum id="org.yorba.shotwell.ExportFormatMode">
+<enum id="org.gnome.shotwell.ExportFormatMode">
     <value value="0" nick="UNMODIFIED" />
     <value value="1" nick="CURRENT" />
     <value value="2" nick="SPECIFIED" />
     <value value="3" nick="LAST" />
 </enum>
 
-<enum id="org.yorba.shotwell.PhotoFileFormat">
+<enum id="org.gnome.shotwell.PhotoFileFormat">
     <value value="0" nick="JFIF" />
     <value value="1" nick="RAW" />
     <value value="2" nick="PNG" />
@@ -357,15 +357,15 @@
     <value value="5" nick="UNKNOWN" />
 </enum>
 
-<enum id="org.yorba.shotwell.JpegQuality">
+<enum id="org.gnome.shotwell.JpegQuality">
     <value value="50" nick="LOW" />
     <value value="75" nick="MEDIUM" />
     <value value="90" nick="HIGH" />
     <value value="100" nick="MAXIMUM" />
 </enum>
 
-<schema id="org.yorba.shotwell.preferences.export">
-    <key name="constraint" enum="org.yorba.shotwell.ScaleConstraint">
+<schema id="org.gnome.shotwell.preferences.export">
+    <key name="constraint" enum="org.gnome.shotwell.ScaleConstraint">
         <default>'ORIGINAL'</default>
         <summary>Setting in export dialog: how to trim images</summary>
         <description>Setting in export dialog: how to trim images</description>
@@ -377,19 +377,19 @@
         <description>Setting in export dialog: option to export metadata</description>
     </key>
 
-    <key name="export-format-mode" enum="org.yorba.shotwell.ExportFormatMode">
+    <key name="export-format-mode" enum="org.gnome.shotwell.ExportFormatMode">
         <default>'CURRENT'</default>
         <summary>format setting, special value</summary>
         <description>Setting in export dialog: format setting, special value</description>
     </key>
 
-    <key name="photo-file-format" enum="org.yorba.shotwell.PhotoFileFormat">
+    <key name="photo-file-format" enum="org.gnome.shotwell.PhotoFileFormat">
         <default>'JFIF'</default>
         <summary>format setting, type value</summary>
         <description>Setting in export dialog: format setting, type value</description>
     </key>
 
-    <key name="quality" enum="org.yorba.shotwell.JpegQuality">
+    <key name="quality" enum="org.gnome.shotwell.JpegQuality">
         <default>'HIGH'</default>
         <summary>JPEG quality option</summary>
         <description>Setting in export dialog: jpeg quality option</description>
@@ -402,7 +402,7 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.sharing">
+<schema id="org.gnome.shotwell.sharing">
     <key name="last-used-service" type="s">
         <default>""</default>
         <summary>last used publishing service</summary>
@@ -415,13 +415,13 @@
         <description>A numeric code representing the last service to which photos were published</description>
     </key>
 
-    <child name="flickr" schema="org.yorba.shotwell.sharing.flickr" />
-    <child name="gallery3" schema="org.yorba.shotwell.sharing.publishing-gallery3" />
-    <child name="org-gnome-shotwell-publishing-google-photos" schema="org.yorba.shotwell.sharing.org-gnome-shotwell-publishing-google-photos" />
-    <child name="youtube" schema="org.yorba.shotwell.sharing.youtube" />
+    <child name="flickr" schema="org.gnome.shotwell.sharing.flickr" />
+    <child name="gallery3" schema="org.gnome.shotwell.sharing.publishing-gallery3" />
+    <child name="org-gnome-shotwell-publishing-google-photos" schema="org.gnome.shotwell.sharing.org-gnome-shotwell-publishing-google-photos" />
+    <child name="youtube" schema="org.gnome.shotwell.sharing.youtube" />
 </schema>
 
-<schema id="org.yorba.shotwell.sharing.flickr">
+<schema id="org.gnome.shotwell.sharing.flickr">
     <key name="access-phase-token" type="s">
         <default>""</default>
         <summary>OAuth Access Phase Token</summary>
@@ -459,11 +459,11 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.sharing.org-gnome-shotwell-publishing-google-photos">
+<schema id="org.gnome.shotwell.sharing.org-gnome-shotwell-publishing-google-photos">
     <key name="refresh-token" type="s">
         <default>""</default>
         <summary>refresh token</summary>
-        <description>The OAuth token used to refresh the Google Photos session for the currently logged in user, if any.</description>
+        <description>The OAuth token used to refresh the Google Photos session for the currently logged in user, if any</description>
     </key>
 
     <key name="default-size" type="i">
@@ -485,47 +485,47 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.sharing.org-yorba-shotwell-publishing-piwigo">
+<schema id="org.gnome.shotwell.sharing.org-yorba-shotwell-publishing-piwigo">
     <key name="url" type="s">
         <default>""</default>
         <summary>Piwigo URL</summary>
-        <description>URL of the Piwigo server.</description>
+        <description>URL of the Piwigo server</description>
     </key>
 
     <key name="username" type="s">
         <default>""</default>
         <summary>username</summary>
-        <description>Piwigo username, if logged in.</description>
+        <description>Piwigo username, if logged in</description>
     </key>
 
     <key name="password" type="s">
         <default>""</default>
         <summary>password</summary>
-        <description>Piwigo password, if logged in.</description>
+        <description>Piwigo password, if logged in</description>
     </key>
 
     <key name="remember-password" type="b">
         <default>false</default>
         <summary>remember password</summary>
-        <description>If true, remember the Piwigo password.</description>
+        <description>If true, remember the Piwigo password</description>
     </key>
 
     <key name="last-category" type="i">
         <default>-1</default>
         <summary>last category</summary>
-        <description>The last selected Piwigo category.</description>
+        <description>The last selected Piwigo category</description>
     </key>
 
     <key name="last-permission-level" type="i">
         <default>-1</default>
         <summary>last permission level</summary>
-        <description>The last chosen Piwigo permission level.</description>
+        <description>The last chosen Piwigo permission level</description>
     </key>
 
     <key name="last-photo-size" type="i">
         <default>-1</default>
         <summary>last photo size</summary>
-        <description>A numeric code representing the last photo size preset used when publishing to Piwigo.</description>
+        <description>A numeric code representing the last photo size preset used when publishing to Piwigo</description>
     </key>
 
     <key name="strip-metadata" type="b">
@@ -543,17 +543,17 @@
     <key name="last-no-upload-tags" type="b">
         <default>false</default>
         <summary>do not upload tags when uploading to Piwigo</summary>
-        <description>Whether images being uploaded to Piwigo should have their tags removed on upload, such that these tags will not appear on the remote Piwigo server.</description>
+        <description>Whether images being uploaded to Piwigo should have their tags removed on upload, such that these tags will not appear on the remote Piwigo server</description>
     </key>
 
     <key name="last-no-upload-ratings" type="b">
         <default>false</default>
         <summary>do not upload ratings when uploading to Piwigo</summary>
-        <description>Whether images being uploaded to Piwigo should have their ratings uploaded, such that these ratings will not appear on the remote Piwigo server.</description>
+        <description>Whether images being uploaded to Piwigo should have their ratings uploaded, such that these ratings will not appear on the remote Piwigo server</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.sharing.publishing-gallery3">
+<schema id="org.gnome.shotwell.sharing.publishing-gallery3">
     <key name="username" type="s">
         <default>""</default>
         <summary>username</summary>
@@ -597,15 +597,15 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.sharing.youtube">
+<schema id="org.gnome.shotwell.sharing.youtube">
     <key name="refresh-token" type="s">
         <default>""</default>
         <summary>refresh token</summary>
-        <description>The OAuth token used to refresh the YouTube session for the currently logged in user, if any.</description>
+        <description>The OAuth token used to refresh the YouTube session for the currently logged in user, if any</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.dataimports">
+<schema id="org.gnome.shotwell.dataimports">
     <key name="last-used-dataimports-service" type="s">
         <default>""</default>
         <summary>last used import service</summary>
@@ -613,7 +613,7 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.video">
+<schema id="org.gnome.shotwell.video">
     <key name="interpreter-state-cookie" type="i">
         <default>-1</default>
         <summary>interpreter state cookie</summary>
@@ -621,7 +621,7 @@
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.printing">
+<schema id="org.gnome.shotwell.printing">
     <key name="content-layout" type="i">
         <default>3</default>
         <summary>content layout mode</summary>
@@ -673,21 +673,21 @@
     <key name="print-titles" type="b">
         <default>false</default>
         <summary>print titles</summary>
-        <description>True if the title of a photo should be printed when the photo is printed, false otherwise.</description>
+        <description>True if the title of a photo should be printed when the photo is printed, false otherwise</description>
     </key>
 
     <key name="titles-font" type="s">
         <default>"Sans Bold 12"</default>
         <summary>titles font</summary>
-        <description>The name of the font to use for photo titles when they are printed.</description>
+        <description>The name of the font to use for photo titles when they are printed</description>
     </key>
 </schema>
 
-<schema id="org.yorba.shotwell.plugins" path="/org/yorba/shotwell/plugins/" >
-    <child name="enable-state" schema="org.yorba.shotwell.plugins.enable-state" />
+<schema id="org.gnome.shotwell.plugins" path="/org/gnome/shotwell/plugins/" >
+    <child name="enable-state" schema="org.gnome.shotwell.plugins.enable-state" />
 </schema>
 
-<schema id="org.yorba.shotwell.plugins.enable-state">
+<schema id="org.gnome.shotwell.plugins.enable-state">
     <key name="publishing-facebook" type="b">
         <default>true</default>
         <summary>enable facebook publishing plugin</summary>
