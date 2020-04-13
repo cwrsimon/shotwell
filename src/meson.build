@@ -17,9 +17,10 @@ processor = executable('shotwell-graphics-processor',
                        dependencies: [gio, gdk, gee],
                        link_with: sw_graphics_processor)
 
-shotwell_deps = [gio, gee, sqlite, gtk, sqlite, posix, gphoto2,
-                 gstreamer_pbu, gio_unix, gudev, gexiv2, gmodule,
-                 libraw, libexif, sw_plugin]
+# Isn't this redundant?
+#shotwell_deps = [gio, gee, sqlite, gtk, sqlite, posix, gphoto2,
+#                 gstreamer_pbu, gio_unix, gudev, gexiv2, gmodule,
+#                 libraw, libexif, sw_plugin]
 
 shotwell_libs = [sw_graphics_processor]
 
@@ -40,7 +41,7 @@ shotwell_deps = [gio, gee, sqlite, gtk, sqlite, posix, gphoto2,
                  libraw, libexif, sw_plugin, webpdemux, webp, version,
                  clutter, clutter_gtk, champlain, champlain_gtk]
 
-if !enableWindowsSupport
+if not enableWindowsSupport
   shotwell_deps += [ gio_unix ]
 endif
 if unity_available

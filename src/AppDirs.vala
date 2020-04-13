@@ -204,7 +204,7 @@ class AppDirs {
         #if POSIX
             tmp_dir = File.new_for_path(DirUtils.mkdtemp (Environment.get_tmp_dir() + "/shotwell-XXXXXX"));
             
-        #elif
+        #else
             tmp_dir = File.new_for_path( Environment.get_tmp_dir() + "/shotwell-XXXXXX" );
         #endif
             try {

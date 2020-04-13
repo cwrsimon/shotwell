@@ -135,7 +135,7 @@ class ShotwellThumbnailer {
                 // we will send the content in Base64.
                 string base64_content = Base64.encode( pngdata);
                 stdout.printf("%s", base64_content);
-            #elif
+            #else
 		        stdout.write(pngdata);
             #endif
 
