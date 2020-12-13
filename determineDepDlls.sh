@@ -5,5 +5,7 @@ ldd /mingw64/lib/gstreamer-1.0/*.dll | grep -i mingw | grep -P -o "/.*?.dll " | 
 
 cat tmp*.txt | sort|uniq
 
-
+grep -i -P "icon|symbolic" src/Resources.vala  | grep "public const string" | grep -o -P "\".*\"" | sed s/"\""/"\*"/g > icon-patterns.txt
+grep -ir -P -o "icon_name.*?\".+?\"" src/*.vala | grep -P -o "\".+?\"" | sed s/"\""/"\*"/g >> icon-patterns.txt
+echo "icon.theme" >> icon-patterns.txt
 

@@ -84,3 +84,8 @@ virtualization/vagrant/config
 .vscode
 *.exe
 *.zip
+
+# Windows stuff
+distro/
+required-dlls.txt
+
