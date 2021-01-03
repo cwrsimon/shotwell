@@ -18,6 +18,9 @@ http://www.msys2.org/
 pacman -Syu
 ```
 
+3. Fire up a Msys64 terminal by searching for 
+"MSYS2 MinGW64 64-bit" on your system.
+
 3. Clone this git repository:
 ```
 git clone https://github.com/cwrsimon/shotwell.git
@@ -25,35 +28,31 @@ git clone https://github.com/cwrsimon/shotwell.git
 
 4. Install the required packages from pkglist.txt:
 ```
-pacman -S --needed - < required-packages.txt
+pacman -S mingw-w64-x86_64-gexiv2 mingw-w64-x86_64-gst-plugins-bad mingw-w64-x86_64-gst-plugins-good mingw-w64-x86_64-libchamplain mingw-w64-x86_64-libgdata mingw-w64-x86_64-libgee mingw-w64-x86_64-libgphoto2 mingw-w64-x86_64-meson mingw-w64-x86_64-pkg-config mingw-w64-x86_64-vala mingw-w64-x86_64-yelp-tools rsync zip
 ```
 
-5. Fire up meson and ninja:
+5. Initialize your development environment:
 ```
 cd shotwell
-meson build
-ninja -C build
-```
-
-6. Test the build:
-```
-cd build/src/
-./shotwell.exe
-```
-
-7. Install to /mingw64:
-```
-ninja -C build install
-```
-
-8. Build a zippable distro:
-```
 mkdir distro
-export DESTDIR=`pwd`/distro    
-ninja -C build install
-sh determineDepDlls.sh > required-dlls.txt
-sh copy-dlls.sh
-zip -r shotwell-0.30.8.zip distro/
+meson --prefix="C:/" build
+```
+
+6. This will give you a first build that can be tested in distro/shotwell-<version>-win/:
+```
+./buildAndRun-win.sh
+```
+
+7. For true happiness, you may need some more files:
+```
+./copyBinaries-win.sh
+```
+And then, you can repeat step 6 as often as you want ;-)
+
+
+8. When finished, you can build a zippable distro:
+```
+./buildDistro-win.sh
 ```
 
 ## Introduction

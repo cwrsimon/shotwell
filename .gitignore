@@ -87,5 +87,6 @@ virtualization/vagrant/config
 
 # Windows stuff
 distro/
-required-dlls.txt
+icon-patterns.txt
+
 
