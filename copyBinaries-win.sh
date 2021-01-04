@@ -15,8 +15,8 @@ echo $x
 cp $x $target/bin/
 done
 
-cp -r  /mingw64/lib/gdk-pixbuf-2.0 $target/lib/
-cp /mingw64/lib/gstreamer-1.0/*.dll $target/bin/
+cp -r /mingw64/lib/gdk-pixbuf-2.0 $target/lib/
+cp -r /mingw64/lib/gstreamer-1.0 $target/lib/
 find $target -type f -name '*.a' -delete
 
 # copy icons

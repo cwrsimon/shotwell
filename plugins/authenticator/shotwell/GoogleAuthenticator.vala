@@ -7,6 +7,9 @@ namespace Publishing.Authenticator.Shotwell.Google {
     private const string OAUTH_CLIENT_SECRET = "pwpzZ7W1TCcD5uIfYCu8sM7x";
     private const string OAUTH_CALLBACK_URI = REVERSE_CLIENT_ID + ":/auth-callback";
 
+    private const string SCHEMA_KEY_PROFILE_ID = "shotwell-profile-id";
+    private const string SCHEMA_KEY_ACCOUNTNAME = "accountname";
+
     private class WebAuthenticationPane : Common.WebAuthenticationPane {
         public static bool cache_dirty = false;
         private string? auth_code = null;
@@ -112,12 +115,18 @@ namespace Publishing.Authenticator.Shotwell.Google {
     }
 
     internal class Google : Spit.Publishing.Authenticator, Object {
+        private const string PASSWORD_SCHEME = "org.gnome.Shotwell.Google";
+
         private string scope = null;
+
+        // Prepare for multiple user accounts
+        private string accountname = "default";
         private Spit.Publishing.PluginHost host = null;
         private GLib.HashTable<string, Variant> params = null;
         private WebAuthenticationPane web_auth_pane = null;
         private Session session = null;
         private string welcome_message = null;
+        private Secret.Schema? schema = null;
 
         public Google(string scope,
                       string welcome_message,
@@ -127,10 +136,21 @@ namespace Publishing.Authenticator.Shotwell.Google {
             this.scope = scope;
             this.session = new Session();
             this.welcome_message = welcome_message;
+            this.schema = new Secret.Schema(PASSWORD_SCHEME, Secret.SchemaFlags.NONE,
+                SCHEMA_KEY_PROFILE_ID, Secret.SchemaAttributeType.STRING,
+                SCHEMA_KEY_ACCOUNTNAME, Secret.SchemaAttributeType.STRING,
+                "scope", Secret.SchemaAttributeType.STRING);
         }
 
         public void authenticate() {
-            var refresh_token = host.get_config_string("refresh_token", null);
+            string? refresh_token = null;
+            try {
+                refresh_token = Secret.password_lookup_sync(this.schema, null,
+                    SCHEMA_KEY_PROFILE_ID, host.get_current_profile_id(),
+                    SCHEMA_KEY_ACCOUNTNAME, this.accountname, "scope", this.scope);
+            } catch (Error err) {
+                critical("Failed to lookup refresh_token from password store: %s", err.message);
+            }
             if (refresh_token != null && refresh_token != "") {
                 on_refresh_token_available(refresh_token);
                 do_exchange_refresh_token_for_access_token();
@@ -157,11 +177,21 @@ namespace Publishing.Authenticator.Shotwell.Google {
 
         public void logout() {
             session.deauthenticate();
-            host.set_config_string("refresh_token", "");
+            try {
+                Secret.password_clear_sync(this.schema, null,
+                    SCHEMA_KEY_PROFILE_ID, host.get_current_profile_id(),
+                    SCHEMA_KEY_ACCOUNTNAME, this.accountname, "scope", this.scope);
+            } catch (Error err) {
+                critical("Failed to remove password for scope %s: %s", this.scope, err.message);
+            }
         }
 
         public void refresh() {
             // TODO: Needs to re-auth
+        }
+
+        public void set_accountname(string accountname) {
+            this.accountname = accountname;
         }
 
         private void do_hosted_web_authentication() {
@@ -368,12 +398,19 @@ namespace Publishing.Authenticator.Shotwell.Google {
             // by the time we get a username, the session should be authenticated, or else something
             // really tragic has happened
             assert(session.is_authenticated());
-            host.set_config_string("refresh_token", session.refresh_token);
+            try {
+                Secret.password_store_sync(this.schema, Secret.COLLECTION_DEFAULT,
+                    "Shotwell publishing (Google account scope %s@%s)".printf(this.accountname, this.scope),
+                    session.refresh_token, null,
+                    SCHEMA_KEY_PROFILE_ID, host.get_current_profile_id(),
+                    SCHEMA_KEY_ACCOUNTNAME, this.accountname, "scope", this.scope);
+            } catch (Error err) {
+                critical("Failed to look up password for scope %s: %s", this.scope, err.message);
+            }
 
             this.authenticated();
             web_auth_pane.clear();
         }
-
 
         private void do_exchange_refresh_token_for_access_token() {
             debug("ACTION: exchanging OAuth refresh token for OAuth access token.");
@@ -417,7 +454,14 @@ namespace Publishing.Authenticator.Shotwell.Google {
             if (txn.get_status_code() == Soup.Status.BAD_REQUEST ||
                 txn.get_status_code() == Soup.Status.UNAUTHORIZED) {
                 // Refresh token invalid, starting over
-                host.set_config_string("refresh_token", "");
+                try {
+                    Secret.password_clear_sync(this.schema, null,
+                        SCHEMA_KEY_PROFILE_ID, host.get_current_profile_id(),
+                        SCHEMA_KEY_ACCOUNTNAME, this.accountname, "scope", this.scope);
+                } catch (Error err) {
+                    critical("Failed to remove password for accountname@scope %s@%s: %s", this.accountname, this.scope, err.message);
+                }
+
                 Idle.add (() => { this.authenticate(); return false; });
             }
 

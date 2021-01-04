@@ -87,7 +87,7 @@ public errordomain PublishingError {
     /**
      * Indicates that a secure connection to the remote host cannot be
      * established. This might have various reasons such as expired
-     * certificats, invalid certificates, self-signed certificates...
+     * certificates, invalid certificates, self-signed certificates...
      */
     SSL_FAILED
 }
@@ -268,6 +268,8 @@ public interface PluginHost : GLib.Object, Spit.HostInterface {
         CANCEL = 1
     }
 
+    public abstract string get_current_profile_id();
+
     /**
      * Notifies the user that an unrecoverable publishing error has occurred and halts
      * the publishing process.
@@ -367,7 +369,7 @@ public interface PluginHost : GLib.Object, Spit.HostInterface {
      * The text displayed depends on the type of media the current publishing service
      * supports. To provide visual consistency across publishing services and to allow
      * Shotwell to handle internationalization, always use this convenience method; don’t
-     * contruct and install success panes manually.
+     * construct and install success panes manually.
      *
      * If an error has posted, the {@link PluginHost} will not honor
      * this request.
@@ -413,7 +415,7 @@ public interface PluginHost : GLib.Object, Spit.HostInterface {
      * the callback 'on_login_clicked'. Every Publisher should provide a welcome pane to
      * introduce the service and explain service-specific features or restrictions. To provide
      * visual consistency across publishing services and to allow Shotwell to handle
-     * internationalization, always use this convenience method; don’t contruct and install
+     * internationalization, always use this convenience method; don’t construct and install
      * welcome panes manually.
      *
      * If an error has posted, the {@link PluginHost} will not honor this request.
@@ -621,6 +623,8 @@ public interface Authenticator : Object {
     public abstract bool can_logout();
     public abstract void logout();
     public abstract void refresh();
+
+    public abstract void set_accountname(string name);
 
     public abstract GLib.HashTable<string, Variant> get_authentication_parameter();
 }

@@ -1,5 +1,5 @@
 project('shotwell', ['vala', 'c'],
-        version : '0.31.2',
+        version : '0.31.3',
         meson_version : '>= 0.43.0',
         default_options : ['buildtype=debugoptimized'])
 
@@ -56,9 +56,9 @@ gmodule = dependency('gmodule-2.0', version: '>= 2.40')
 gee = dependency('gee-0.8', version: '>= 0.8.5')
 # only required for publisher plugins
 if not enableWindowsSupport
-webkit = dependency('webkit2gtk-4.0', version: '>= 2.4')
+webkit = dependency('webkit2gtk-4.0', version: '>= 2.26')
 else
-webkit = dependency('webkit2gtk-4.0', version: '>= 2.4', required: false)
+webkit = dependency('webkit2gtk-4.0', version: '>= 2.26', required: false)
 endif
 soup = dependency('libsoup-2.4')
 json_glib = dependency('json-glib-1.0')
@@ -74,6 +74,7 @@ gexiv2 = dependency('gexiv2', version: '>= 0.11.0')
 libraw = dependency('libraw', version : '>= 0.13.2')
 libexif = dependency('libexif', version : '>= 0.6.16')
 unity = dependency('unity', required : false)
+secret = dependency('libsecret-1', required: true)
 champlain = dependency('champlain-0.12', version: '>= 0.12.16')
 champlain_gtk = dependency('champlain-gtk-0.12')
 clutter = dependency('clutter-1.0')
@@ -82,9 +83,7 @@ clutter_gtk = dependency('clutter-gtk-1.0')
 webpdemux = dependency('libwebpdemux')
 webp = dependency('libwebp')
 
-unity_available = false
-if unity.found() and get_option('unity-support')
-  unity_available = true
+if unity.found() and get_option('unity_support')
   add_global_arguments(['--define=UNITY_SUPPORT'], language : 'vala')
 endif
 
@@ -103,7 +102,7 @@ foreach measure : get_option('measure')
                        language : 'vala')
 endforeach
 
-if not get_option('dupe-detection')
+if not get_option('dupe_detection')
   add_global_arguments(['--define=NO_DUPE_DETECTION'], language : 'vala')
 endif
 
@@ -111,14 +110,14 @@ if get_option('udev') and gudev.found()
   add_global_arguments(['--define=HAVE_UDEV'], language : 'vala')
 endif
 
-if get_option('face-detection')
+if get_option('face_detection')
   add_global_arguments(['--define=ENABLE_FACES'], language : 'vala')
 
   if get_option('face_detection_helper_bus') == 'private'
       add_global_arguments(['--define=FACEDETECT_BUS_PRIVATE'], language : 'vala')
   endif
 
-  if get_option('face-detection-helper')
+  if get_option('face_detection_helper')
       subproject('shotwell-facedetect')
   endif
 endif

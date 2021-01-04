@@ -28,7 +28,7 @@ git clone https://github.com/cwrsimon/shotwell.git
 
 4. Install the required packages from pkglist.txt:
 ```
-pacman -S mingw-w64-x86_64-gexiv2 mingw-w64-x86_64-gst-plugins-bad mingw-w64-x86_64-gst-plugins-good mingw-w64-x86_64-libchamplain mingw-w64-x86_64-libgdata mingw-w64-x86_64-libgee mingw-w64-x86_64-libgphoto2 mingw-w64-x86_64-meson mingw-w64-x86_64-pkg-config mingw-w64-x86_64-vala mingw-w64-x86_64-yelp-tools rsync zip
+pacman -S mingw-w64-x86_64-gexiv2 mingw-w64-x86_64-gst-plugins-bad mingw-w64-x86_64-gst-plugins-good mingw-w64-x86_64-libchamplain mingw-w64-x86_64-libgdata mingw-w64-x86_64-libgee mingw-w64-x86_64-libgphoto2 mingw-w64-x86_64-meson mingw-w64-x86_64-pkg-config mingw-w64-x86_64-vala mingw-w64-x86_64-yelp-tools rsync zip mingw-w64-x86_64-libsecret 
 ```
 
 5. Initialize your development environment:
