@@ -29,3 +29,11 @@ rsync -avz --include "*/" --include-from=icon-patterns.txt --exclude "*" /mingw6
 
 gtk-update-icon-cache-3.0.exe $target/share/icons/hicolor/
 gtk-update-icon-cache-3.0.exe $target/share/icons/Adwaita/
+
+
+# convert page files to html
+for x in `ls -1d $target/share/help/*`
+do
+echo $x
+cd $x/shotwell/ && /usr/bin/yelp-build html *.page
+done
