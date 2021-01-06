@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <winnls.h>
+#include <shlobj.h>
 
 char *
 locale_get_decimal ()
@@ -12,4 +13,13 @@ locale_get_decimal ()
 
 
 	return strdup(tmp);
+}
+
+// borrowed from:
+// https://stackoverflow.com/questions/47564192/shopenfolderandselectitems-with-arrays
+void
+openFileInExplorer(char *filename) {
+ITEMIDLIST *idl = ILCreateFromPath(filename);
+SHOpenFolderAndSelectItems(idl, 0, 0, 0);
+ILFree(idl);
 }

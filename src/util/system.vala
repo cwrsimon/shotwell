@@ -4,6 +4,10 @@
  * See the COPYING file in this distribution.
  */
 
+ #if ENABLE_WINDOWS
+ extern void openFileInExplorer(string filename);
+ #endif
+
 // Return the directory in which Shotwell is installed, or null if uninstalled.
 File? get_sys_install_dir(File exec_dir) {
     // Assume that if the ui folder lives next to the binary, we run in-tree
@@ -32,6 +36,11 @@ public interface org.freedesktop.FileManager1 : Object {
 }
 
 async void show_file_in_filemanager(File file) throws Error {
+    #if ENABLE_WINDOWS
+        openFileInExplorer(file.get_path());
+        return;
+    #endif
+
     try {
         org.freedesktop.FileManager1? manager = yield Bus.get_proxy (BusType.SESSION,
                                                                      org.freedesktop.FileManager1.NAME,
