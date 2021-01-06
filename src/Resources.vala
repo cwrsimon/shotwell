@@ -1113,7 +1113,7 @@ along with Shotwell; if not, write to the Free Software Foundation, Inc.,
         if (dir.get_path().has_suffix("src")) {
             dir = dir.get_parent().get_parent();
         }
-        
+
         File help_dir = dir.get_child("help").get_child("C");
         File help_index = help_dir.get_child("index.page");
         
@@ -1136,8 +1136,13 @@ along with Shotwell; if not, write to the Free Software Foundation, Inc.,
     }
 
     public static void launch_help(Gtk.Window window, string? anchor=null) throws Error {
+        #if ENABLE_WINDOWS
+            launch_help_win(window, anchor);
+            return;
+        #endif
+    
         string? help_path = get_help_path();
-        
+
         if(help_path != null) {
             // We're running from the build directory; use local help.
             
@@ -1150,7 +1155,7 @@ along with Shotwell; if not, write to the Free Software Foundation, Inc.,
             argv[0] = "yelp";
             argv[1] = help_path;
             argv[2] = null;
-            
+
             Pid pid;
             if (Process.spawn_async(AppDirs.get_exec_dir().get_path(), argv, null,
                 SpawnFlags.SEARCH_PATH | SpawnFlags.STDERR_TO_DEV_NULL, null, out pid)) {
@@ -1168,6 +1173,44 @@ along with Shotwell; if not, write to the Free Software Foundation, Inc.,
 
         Gtk.show_uri_on_window(window, uri, Gdk.CURRENT_TIME);
     }
+
+    private static void launch_help_win(Gtk.Window window, string? anchor=null) throws Error {
+        string country_code = null;
+        var win_locale = GLib.Win32.getlocale();
+        if (win_locale.length > 2) {
+            country_code = win_locale.substring(0,2);
+        }
+
+        // Try looking for our 'index.page' in the build directory.
+        File dir = AppDirs.get_exec_dir().get_parent().get_child("share");
+        
+        File help_dir = null;
+        if (country_code != null) {
+            help_dir = dir.get_child("help").get_child(country_code);
+        } else {
+            help_dir = dir.get_child("help").get_child("C");
+        }
+        if (!help_dir.query_exists(null)) {
+            warning("No help available");
+            return;
+        }
+
+        help_dir = help_dir.get_child("shotwell");
+        var help_file = "index.html";
+        if (anchor != null) {
+            help_file = anchor.replace("page","html");
+        }
+        // Replace suffix .page with .html
+        File help_index = help_dir.get_child(help_file);
+        
+        if (!help_index.query_exists(null)) {
+            warning("Help file %s cannot be found.", anchor);
+            return;
+        }
+
+        Gtk.show_uri_on_window(window, help_index.get_uri(), Gdk.CURRENT_TIME);
+    }
+
     
     public const int ALL_DATA = -1;
     
